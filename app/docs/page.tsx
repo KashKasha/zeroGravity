@@ -65,10 +65,10 @@ const sections: DocSection[] = [
 ];
 
 const colorClasses: Record<string, { bg: string; text: string; textLight: string; ring: string; gradient: string }> = {
-  emerald: { bg: "bg-emerald-500/10", text: "text-emerald-400", textLight: "text-emerald-600", ring: "ring-emerald-500/20", gradient: "from-emerald-400 to-emerald-600" },
-  sky: { bg: "bg-sky-500/10", text: "text-sky-400", textLight: "text-sky-600", ring: "ring-sky-500/20", gradient: "from-sky-400 to-sky-600" },
-  violet: { bg: "bg-violet-500/10", text: "text-violet-400", textLight: "text-violet-600", ring: "ring-violet-500/20", gradient: "from-violet-400 to-violet-600" },
-  amber: { bg: "bg-amber-500/10", text: "text-amber-400", textLight: "text-amber-600", ring: "ring-amber-500/20", gradient: "from-amber-400 to-amber-600" },
+  emerald: { bg: "bg-zinc-500/10", text: "text-zinc-400", textLight: "text-zinc-600", ring: "ring-zinc-500/20", gradient: "from-zinc-400 to-zinc-600" },
+  sky: { bg: "bg-zinc-500/10", text: "text-zinc-400", textLight: "text-zinc-600", ring: "ring-zinc-500/20", gradient: "from-zinc-400 to-zinc-600" },
+  violet: { bg: "bg-zinc-500/10", text: "text-zinc-400", textLight: "text-zinc-600", ring: "ring-zinc-500/20", gradient: "from-zinc-400 to-zinc-600" },
+  amber: { bg: "bg-zinc-500/10", text: "text-zinc-400", textLight: "text-zinc-600", ring: "ring-zinc-500/20", gradient: "from-zinc-400 to-zinc-600" },
 };
 
 const tableOfContents = [
@@ -123,7 +123,7 @@ export default function DocsPage() {
       <div className="flex justify-between items-start mb-8">
         <div>
           <h1 className={`text-2xl font-bold mb-1 ${isLight ? "text-zinc-800" : "text-zinc-100"}`}>Documentation</h1>
-          <p className="text-sm text-zinc-500">Learn how to get the most out of LimeWP hosting</p>
+          <p className={`text-sm ${isLight ? "text-zinc-600" : "text-zinc-500"}`}>Learn how to get the most out of LimeWP hosting</p>
         </div>
         <div className="flex items-center gap-3">
           <Button
@@ -142,7 +142,11 @@ export default function DocsPage() {
             </Button>
           
           <Button
-              className="font-semibold text-sm bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white transition-all gap-2 rounded-xl shadow-lg shadow-emerald-500/20"
+              className={`font-semibold text-sm transition-all gap-2 rounded-xl ${
+                isLight
+                  ? "bg-zinc-800 text-white hover:bg-zinc-700"
+                  : "bg-zinc-100 text-zinc-900 hover:bg-zinc-200"
+              }`}
               startContent={
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
                   <path d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
@@ -197,7 +201,7 @@ export default function DocsPage() {
                   : "bg-gradient-to-br from-[#1E1E21] to-[#1a1a1d] border-[#2A2A2E]"
               }`}>
               {/* Corner Glow */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-emerald-500/10 to-transparent rounded-full -translate-y-1/2 translate-x-1/3 opacity-60" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-zinc-500/10 to-transparent rounded-full -translate-y-1/2 translate-x-1/3 opacity-60" />
 
               <div className="relative p-4">
                 {/* Search */}
@@ -302,12 +306,16 @@ export default function DocsPage() {
                               >
                                 <span className="truncate">{item.title}</span>
                                 {item.isNew && (
-                                  <span className="flex-shrink-0 text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/30">
+                                  <span className={`flex-shrink-0 text-[9px] font-bold px-1.5 py-0.5 rounded ${
+                                    isLight
+                                      ? "bg-zinc-200 text-zinc-600 ring-1 ring-zinc-300"
+                                      : "bg-zinc-700 text-zinc-300 ring-1 ring-zinc-600"
+                                  }`}>
                                     NEW
                                   </span>
                                 )}
                                 {item.isPopular && (
-                                  <svg className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                                  <svg className="w-3.5 h-3.5 text-zinc-400 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
                                   </svg>
                                 )}
@@ -328,11 +336,11 @@ export default function DocsPage() {
                 ? "bg-white border-zinc-200"
                 : "bg-gradient-to-br from-[#1E1E21] to-[#1a1a1d] border-[#2A2A2E]"
             }`}>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-amber-500/10 to-transparent rounded-full translate-y-1/2 -translate-x-1/3" />
+              <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-zinc-500/10 to-transparent rounded-full translate-y-1/2 -translate-x-1/3" />
 
               <div className="relative">
                 <div className="flex items-center gap-2 mb-3">
-                  <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-zinc-400" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
                     <path d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" />
                   </svg>
@@ -365,7 +373,7 @@ export default function DocsPage() {
               : "bg-gradient-to-br from-[#1E1E21] to-[#1a1a1d] border-[#2A2A2E]"
           }`}>
             {/* Corner Glow */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-emerald-500/10 to-transparent rounded-full -translate-y-1/2 translate-x-1/3 opacity-60" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-zinc-500/10 to-transparent rounded-full -translate-y-1/2 translate-x-1/3 opacity-60" />
 
             <div className="relative p-8">
               {/* Breadcrumb */}
@@ -393,8 +401,8 @@ export default function DocsPage() {
                     <Chip
                       size="sm"
                       classNames={{
-                        base: "bg-emerald-500/10 ring-1 ring-emerald-500/20",
-                        content: "text-emerald-400 text-xs font-medium",
+                        base: "bg-zinc-500/10 ring-1 ring-zinc-500/20",
+                        content: "text-zinc-400 text-xs font-medium",
                       }}
                       startContent={
                         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
@@ -458,7 +466,7 @@ export default function DocsPage() {
                   classNames={{
                     base: "h-1",
                     track: isLight ? "bg-zinc-200" : "bg-[#27272A]",
-                    indicator: "bg-gradient-to-r from-emerald-500 to-emerald-400",
+                    indicator: isLight ? "bg-zinc-700" : "bg-zinc-300",
                   }}
                 />
               </div>
@@ -469,16 +477,24 @@ export default function DocsPage() {
               </p>
 
               {/* Info Callout */}
-              <div className="relative bg-sky-500/10 border border-sky-500/20 rounded-xl p-4 mb-8 overflow-hidden">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-sky-500/20 to-transparent rounded-full -translate-y-1/2 translate-x-1/3" />
+              <div className={`relative rounded-xl p-4 mb-8 overflow-hidden border ${
+                isLight
+                  ? "bg-zinc-100 border-zinc-200"
+                  : "bg-zinc-800/50 border-zinc-700"
+              }`}>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-zinc-500/20 to-transparent rounded-full -translate-y-1/2 translate-x-1/3" />
                 <div className="relative flex gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-sky-500/20 ring-1 ring-sky-500/30 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                    isLight
+                      ? "bg-zinc-200 ring-1 ring-zinc-300"
+                      : "bg-zinc-700 ring-1 ring-zinc-600"
+                  }`}>
+                    <svg className={`w-5 h-5 ${isLight ? "text-zinc-600" : "text-zinc-300"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                     </svg>
                   </div>
                   <div>
-                    <div className="font-semibold text-sky-400 mb-1">Before you begin</div>
+                    <div className={`font-semibold mb-1 ${isLight ? "text-zinc-700" : "text-zinc-200"}`}>Before you begin</div>
                     <p className="text-sm text-zinc-400">
                       Make sure you have a LimeWP account and have verified your email address. If you haven&apos;t signed up yet, visit our registration page to create an account.
                     </p>
@@ -489,7 +505,11 @@ export default function DocsPage() {
               {/* Step 1 */}
               <div id="step-1" className="scroll-mt-24">
                 <div className="flex items-center gap-3 mb-4 mt-10">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-emerald-500/30">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                    isLight
+                      ? "bg-zinc-800 text-white"
+                      : "bg-zinc-200 text-zinc-900"
+                  }`}>
                     1
                   </div>
                   <h2 className={`text-xl font-semibold ${isLight ? "text-zinc-800" : "text-zinc-100"}`}>Create a New Site</h2>
@@ -505,8 +525,12 @@ export default function DocsPage() {
                     "Configure basic settings",
                   ].map((item) => (
                     <li key={item} className={`flex items-center gap-3 ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
-                      <div className="w-5 h-5 rounded-full bg-emerald-500/10 ring-1 ring-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                        <svg className="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
+                        isLight
+                          ? "bg-zinc-200 ring-1 ring-zinc-300"
+                          : "bg-zinc-700 ring-1 ring-zinc-600"
+                      }`}>
+                        <svg className={`w-3 h-3 ${isLight ? "text-zinc-600" : "text-zinc-400"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                         </svg>
                       </div>
@@ -543,24 +567,32 @@ export default function DocsPage() {
                 <div className="p-5 overflow-x-auto">
                   <pre className="font-mono text-sm">
                     <code>
-                      <span className="text-zinc-500">$</span> <span className="text-emerald-400">limewp</span> <span className="text-sky-400">site:create</span> <span className="text-amber-400">--name</span>=<span className="text-zinc-300">&quot;my-site&quot;</span>{"\n"}
-                      <span className="text-zinc-500">$</span> <span className="text-emerald-400">limewp</span> <span className="text-sky-400">site:install-wp</span> <span className="text-amber-400">--admin-email</span>=<span className="text-zinc-300">&quot;admin@example.com&quot;</span>
+                      <span className="text-zinc-500">$</span> <span className="text-zinc-300">limewp</span> <span className="text-zinc-400">site:create</span> <span className="text-zinc-500">--name</span>=<span className="text-zinc-300">&quot;my-site&quot;</span>{"\n"}
+                      <span className="text-zinc-500">$</span> <span className="text-zinc-300">limewp</span> <span className="text-zinc-400">site:install-wp</span> <span className="text-zinc-500">--admin-email</span>=<span className="text-zinc-300">&quot;admin@example.com&quot;</span>
                     </code>
                   </pre>
                 </div>
               </div>
 
               {/* Warning Callout */}
-              <div className="relative bg-amber-500/10 border border-amber-500/20 rounded-xl p-4 mb-8 ml-11 overflow-hidden">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-500/20 to-transparent rounded-full -translate-y-1/2 translate-x-1/3" />
+              <div className={`relative rounded-xl p-4 mb-8 ml-11 overflow-hidden border ${
+                isLight
+                  ? "bg-zinc-100 border-zinc-200"
+                  : "bg-zinc-800/50 border-zinc-700"
+              }`}>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-zinc-500/20 to-transparent rounded-full -translate-y-1/2 translate-x-1/3" />
                 <div className="relative flex gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/20 ring-1 ring-amber-500/30 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                    isLight
+                      ? "bg-zinc-200 ring-1 ring-zinc-300"
+                      : "bg-zinc-700 ring-1 ring-zinc-600"
+                  }`}>
+                    <svg className={`w-5 h-5 ${isLight ? "text-zinc-600" : "text-zinc-300"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
                     </svg>
                   </div>
                   <div>
-                    <div className="font-semibold text-amber-400 mb-1">Important</div>
+                    <div className={`font-semibold mb-1 ${isLight ? "text-zinc-700" : "text-zinc-200"}`}>Important</div>
                     <p className="text-sm text-zinc-400">
                       Make sure to save your credentials in a secure location. You won&apos;t be able to retrieve your password after the initial setup is complete.
                     </p>
@@ -571,7 +603,11 @@ export default function DocsPage() {
               {/* Step 2 */}
               <div id="step-2" className="scroll-mt-24">
                 <div className="flex items-center gap-3 mb-4 mt-10">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-sky-500/30">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                    isLight
+                      ? "bg-zinc-800 text-white"
+                      : "bg-zinc-200 text-zinc-900"
+                  }`}>
                     2
                   </div>
                   <h2 className={`text-xl font-semibold ${isLight ? "text-zinc-800" : "text-zinc-100"}`}>Configure Your Site</h2>
@@ -584,7 +620,11 @@ export default function DocsPage() {
               {/* Step 3 */}
               <div id="step-3" className="scroll-mt-24">
                 <div className="flex items-center gap-3 mb-4 mt-10">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-400 to-violet-600 flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-violet-500/30">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                    isLight
+                      ? "bg-zinc-800 text-white"
+                      : "bg-zinc-200 text-zinc-900"
+                  }`}>
                     3
                   </div>
                   <h2 className={`text-xl font-semibold ${isLight ? "text-zinc-800" : "text-zinc-100"}`}>Install Essential Plugins</h2>
@@ -622,16 +662,24 @@ export default function DocsPage() {
               </div>
 
               {/* Success Callout */}
-              <div id="next-steps" className="scroll-mt-24 relative bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 mb-8 overflow-hidden">
-                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-emerald-500/20 to-transparent rounded-full -translate-y-1/2 translate-x-1/3" />
+              <div id="next-steps" className={`scroll-mt-24 relative rounded-xl p-4 mb-8 overflow-hidden border ${
+                isLight
+                  ? "bg-zinc-100 border-zinc-200"
+                  : "bg-zinc-800/50 border-zinc-700"
+              }`}>
+                <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-zinc-500/20 to-transparent rounded-full -translate-y-1/2 translate-x-1/3" />
                 <div className="relative flex gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/20 ring-1 ring-emerald-500/30 flex items-center justify-center flex-shrink-0">
-                    <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                    isLight
+                      ? "bg-zinc-200 ring-1 ring-zinc-300"
+                      : "bg-zinc-700 ring-1 ring-zinc-600"
+                  }`}>
+                    <svg className={`w-5 h-5 ${isLight ? "text-zinc-600" : "text-zinc-300"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
                   <div>
-                    <div className="font-semibold text-emerald-400 mb-1">Congratulations!</div>
+                    <div className={`font-semibold mb-1 ${isLight ? "text-zinc-700" : "text-zinc-200"}`}>Congratulations!</div>
                     <p className="text-sm text-zinc-400">
                       Your WordPress site is now set up and ready to go. You can start creating content, customizing your theme, and growing your online presence.
                     </p>
@@ -650,7 +698,9 @@ export default function DocsPage() {
                       onClick={() => setHelpfulFeedback(true)}
                       className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
                         helpfulFeedback === true
-                          ? "bg-emerald-500/20 text-emerald-400 ring-1 ring-emerald-500/30"
+                          ? isLight
+                            ? "bg-zinc-200 text-zinc-700 ring-1 ring-zinc-300"
+                            : "bg-zinc-700 text-zinc-200 ring-1 ring-zinc-600"
                           : isLight
                             ? "bg-zinc-200/50 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-800"
                             : "bg-[#3F3F46]/50 text-zinc-400 hover:bg-[#3F3F46] hover:text-zinc-200"
@@ -665,7 +715,9 @@ export default function DocsPage() {
                       onClick={() => setHelpfulFeedback(false)}
                       className={`flex items-center gap-2 px-4 py-2 rounded-xl transition-all ${
                         helpfulFeedback === false
-                          ? "bg-rose-500/20 text-rose-400 ring-1 ring-rose-500/30"
+                          ? isLight
+                            ? "bg-zinc-200 text-zinc-700 ring-1 ring-zinc-300"
+                            : "bg-zinc-700 text-zinc-200 ring-1 ring-zinc-600"
                           : isLight
                             ? "bg-zinc-200/50 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-800"
                             : "bg-[#3F3F46]/50 text-zinc-400 hover:bg-[#3F3F46] hover:text-zinc-200"
@@ -707,9 +759,17 @@ export default function DocsPage() {
                 }`}>
                   <div className="text-right">
                     <div className="text-xs text-zinc-500">Next</div>
-                    <div className="text-sm font-medium text-emerald-400 group-hover:text-emerald-300 transition-colors">Creating Your First Site</div>
+                    <div className={`text-sm font-medium transition-colors ${
+                      isLight
+                        ? "text-zinc-700 group-hover:text-zinc-900"
+                        : "text-zinc-300 group-hover:text-zinc-100"
+                    }`}>Creating Your First Site</div>
                   </div>
-                  <svg className="w-5 h-5 text-emerald-400 group-hover:text-emerald-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <svg className={`w-5 h-5 transition-colors ${
+                    isLight
+                      ? "text-zinc-600 group-hover:text-zinc-800"
+                      : "text-zinc-400 group-hover:text-zinc-200"
+                  }`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
                 </button>
@@ -726,7 +786,7 @@ export default function DocsPage() {
                 ? "bg-white border-zinc-200"
                 : "bg-gradient-to-br from-[#1E1E21] to-[#1a1a1d] border-[#2A2A2E]"
             }`}>
-              <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-violet-500/10 to-transparent rounded-full translate-y-1/3 translate-x-1/3" />
+              <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-zinc-500/10 to-transparent rounded-full translate-y-1/3 translate-x-1/3" />
 
               <div className="relative">
                 <div className="flex items-center gap-2 mb-4">
@@ -742,7 +802,9 @@ export default function DocsPage() {
                       onClick={() => setActiveSection(item.id)}
                       className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all ${
                         activeSection === item.id
-                          ? "bg-violet-500/10 text-violet-400 ring-1 ring-violet-500/20"
+                          ? isLight
+                            ? "bg-zinc-200 text-zinc-700 ring-1 ring-zinc-300"
+                            : "bg-zinc-700 text-zinc-200 ring-1 ring-zinc-600"
                           : isLight
                             ? "text-zinc-500 hover:text-zinc-700 hover:bg-zinc-100"
                             : "text-zinc-500 hover:text-zinc-300 hover:bg-[#27272A]"
@@ -761,16 +823,24 @@ export default function DocsPage() {
                 ? "bg-white border-zinc-200"
                 : "bg-gradient-to-br from-[#1E1E21] to-[#1a1a1d] border-[#2A2A2E]"
             }`}>
-              <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-emerald-500/10 to-transparent rounded-full -translate-y-1/3 -translate-x-1/3" />
+              <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-zinc-500/10 to-transparent rounded-full -translate-y-1/3 -translate-x-1/3" />
 
               <div className="relative text-center">
-                <div className="w-12 h-12 rounded-xl bg-emerald-500/10 ring-1 ring-emerald-500/20 flex items-center justify-center mx-auto mb-3">
-                  <svg className="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 ${
+                  isLight
+                    ? "bg-zinc-200 ring-1 ring-zinc-300"
+                    : "bg-zinc-700 ring-1 ring-zinc-600"
+                }`}>
+                  <svg className={`w-6 h-6 ${isLight ? "text-zinc-600" : "text-zinc-400"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
                   </svg>
                 </div>
                 <p className={`text-sm mb-3 ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>Need help? Our support team is available 24/7</p>
-                <button className="w-full h-9 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white text-sm font-semibold transition-all shadow-lg shadow-emerald-500/20">
+                <button className={`w-full h-9 rounded-xl text-sm font-semibold transition-all ${
+                  isLight
+                    ? "bg-zinc-800 text-white hover:bg-zinc-700"
+                    : "bg-zinc-100 text-zinc-900 hover:bg-zinc-200"
+                }`}>
                   Contact Support
                 </button>
               </div>

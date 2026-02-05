@@ -1,7 +1,6 @@
 "use client";
 
 import { Avatar } from "@heroui/react";
-import { getColorClasses } from "@/lib/utils/colors";
 import { useTheme } from "@/lib/context/ThemeContext";
 import type { DashboardActivity } from "@/data/dashboard";
 
@@ -16,7 +15,6 @@ interface ActivityItemProps {
 export function ActivityItem({ activity, isFirst, isLast, onViewDetails, onGoToSite }: ActivityItemProps) {
   const { resolvedTheme } = useTheme();
   const isLight = resolvedTheme === "light";
-  const colors = getColorClasses(activity.color);
 
   return (
     <div
@@ -34,15 +32,17 @@ export function ActivityItem({ activity, isFirst, isLast, onViewDetails, onGoToS
 
       {/* Activity Icon with Pulse */}
       <div className="relative flex-shrink-0">
-        <div className={`w-10 h-10 rounded-xl ${colors.bg} ${colors.text} ring-1 ${colors.ring} flex items-center justify-center group-hover:scale-105 transition-transform`}>
+        <div className={`w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform ring-1 ${
+          isLight ? "bg-zinc-100 text-zinc-600 ring-zinc-200" : "bg-zinc-800 text-zinc-400 ring-zinc-700"
+        }`}>
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
             <path d={activity.icon} />
           </svg>
         </div>
         {isFirst && (
           <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className={`relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 ring-2 ${isLight ? "ring-white" : "ring-[#1E1E21]"}`}></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-400 opacity-75"></span>
+            <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ring-2 ${isLight ? "bg-zinc-500 ring-white" : "bg-zinc-400 ring-[#1E1E21]"}`}></span>
           </span>
         )}
       </div>
@@ -55,7 +55,9 @@ export function ActivityItem({ activity, isFirst, isLast, onViewDetails, onGoToS
           }`}>
             {activity.action}
           </span>
-          <span className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${colors.bg} ${colors.text}`}>
+          <span className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded ${
+            isLight ? "bg-zinc-100 text-zinc-600" : "bg-zinc-800 text-zinc-400"
+          }`}>
             {activity.typeLabel}
           </span>
         </div>
@@ -66,8 +68,8 @@ export function ActivityItem({ activity, isFirst, isLast, onViewDetails, onGoToS
               name={activity.siteInitials}
               size="sm"
               classNames={{
-                base: `w-4 h-4 bg-gradient-to-br ${activity.siteGradient} ring-1 ring-white/10`,
-                name: "text-[7px] font-bold",
+                base: `w-4 h-4 ring-1 ${isLight ? "bg-zinc-200 ring-zinc-300" : "bg-zinc-700 ring-zinc-600"}`,
+                name: `text-[7px] font-bold ${isLight ? "text-zinc-600" : "text-zinc-300"}`,
               }}
             />
             <span className={`text-xs font-medium ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>{activity.site}</span>

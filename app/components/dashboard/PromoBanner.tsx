@@ -1,6 +1,7 @@
 "use client";
 
 import { useTheme } from "@/lib/context/ThemeContext";
+import { getColorClasses } from "@/lib/utils/colors";
 import { cn } from "@/lib/utils";
 
 interface PromoBannerProps {
@@ -9,25 +10,26 @@ interface PromoBannerProps {
 }
 
 export function PromoBanner({ onLearnMore, onUpgrade }: PromoBannerProps) {
-  const { resolvedTheme } = useTheme();
+  const { resolvedTheme, accentColor } = useTheme();
   const isLight = resolvedTheme === "light";
+  const accent = getColorClasses(accentColor);
 
   return (
     <div className={cn(
       "mb-10 rounded-xl border p-6",
       isLight
-        ? "bg-gradient-to-r from-sky-50 to-indigo-50 border-sky-200"
-        : "bg-gradient-to-r from-sky-500/10 to-indigo-500/10 border-sky-500/20"
+        ? "bg-zinc-50 border-zinc-200"
+        : "bg-zinc-900/50 border-zinc-800"
     )}>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
         <div className="flex items-start sm:items-center gap-4">
           {/* Icon */}
           <div className={cn(
             "w-11 h-11 rounded-lg flex items-center justify-center shrink-0",
-            isLight ? "bg-sky-100" : "bg-sky-500/20"
+            isLight ? "bg-zinc-200" : "bg-zinc-800"
           )}>
             <svg
-              className={cn("w-5 h-5", isLight ? "text-sky-600" : "text-sky-400")}
+              className={cn("w-5 h-5", isLight ? "text-zinc-600" : "text-zinc-400")}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -84,10 +86,9 @@ export function PromoBanner({ onLearnMore, onUpgrade }: PromoBannerProps) {
           <button
             onClick={onUpgrade}
             className={cn(
-              "text-xs font-semibold px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5",
-              isLight
-                ? "bg-sky-600 text-white hover:bg-sky-700"
-                : "bg-sky-500 text-white hover:bg-sky-400"
+              "text-xs font-semibold px-4 py-2 rounded-lg transition-colors flex items-center gap-1.5 text-white",
+              accent.button,
+              accent.buttonHover
             )}
           >
             Upgrade

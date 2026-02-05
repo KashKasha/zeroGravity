@@ -81,7 +81,7 @@ const threads: Thread[] = [
   {
     id: "1",
     initials: "JD",
-    gradient: "from-emerald-500 to-teal-500",
+    gradient: "from-zinc-500 to-zinc-600",
     title: "How to configure Redis object caching for better performance?",
     author: "John Doe",
     category: "Technical Support",
@@ -95,7 +95,7 @@ const threads: Thread[] = [
   {
     id: "2",
     initials: "SM",
-    gradient: "from-violet-500 to-purple-500",
+    gradient: "from-zinc-500 to-zinc-600",
     title: "Best practices for WordPress multisite on LimeWP",
     author: "Sarah M.",
     category: "General Discussion",
@@ -108,7 +108,7 @@ const threads: Thread[] = [
   {
     id: "3",
     initials: "MK",
-    gradient: "from-sky-500 to-blue-500",
+    gradient: "from-zinc-500 to-zinc-600",
     title: "Feature Request: Staging environment one-click deploy",
     author: "Mike K.",
     category: "Feature Requests",
@@ -121,7 +121,7 @@ const threads: Thread[] = [
   {
     id: "4",
     initials: "AL",
-    gradient: "from-amber-500 to-orange-500",
+    gradient: "from-zinc-500 to-zinc-600",
     title: "Showcase: My e-commerce site built with WooCommerce",
     author: "Amy L.",
     category: "Showcase",
@@ -134,7 +134,7 @@ const threads: Thread[] = [
   {
     id: "5",
     initials: "RJ",
-    gradient: "from-rose-500 to-pink-500",
+    gradient: "from-zinc-500 to-zinc-600",
     title: "SSL certificate not renewing automatically - Help needed",
     author: "Rob J.",
     category: "Technical Support",
@@ -147,20 +147,20 @@ const threads: Thread[] = [
 ];
 
 const contributors: Contributor[] = [
-  { initials: "JD", gradient: "from-emerald-500 to-teal-500", name: "John Doe", helpful: "142 helpful", badge: "MVP", badgeColor: "emerald" },
-  { initials: "SM", gradient: "from-violet-500 to-purple-500", name: "Sarah M.", helpful: "98 helpful", badge: "Expert", badgeColor: "violet" },
-  { initials: "MK", gradient: "from-sky-500 to-blue-500", name: "Mike K.", helpful: "76 helpful", badge: "Expert", badgeColor: "sky" },
-  { initials: "AL", gradient: "from-amber-500 to-orange-500", name: "Amy L.", helpful: "54 helpful", badge: null, badgeColor: "" },
+  { initials: "JD", gradient: "from-zinc-500 to-zinc-600", name: "John Doe", helpful: "142 helpful", badge: "MVP", badgeColor: "emerald" },
+  { initials: "SM", gradient: "from-zinc-500 to-zinc-600", name: "Sarah M.", helpful: "98 helpful", badge: "Expert", badgeColor: "violet" },
+  { initials: "MK", gradient: "from-zinc-500 to-zinc-600", name: "Mike K.", helpful: "76 helpful", badge: "Expert", badgeColor: "sky" },
+  { initials: "AL", gradient: "from-zinc-500 to-zinc-600", name: "Amy L.", helpful: "54 helpful", badge: null, badgeColor: "" },
 ];
 
 const trendingTags = ["performance", "ssl", "migration", "woocommerce", "caching", "php8", "backup", "dns"];
 
 const colorClasses: Record<string, { bg: string; text: string; ring: string; activeBg: string }> = {
-  emerald: { bg: "bg-emerald-500/10", text: "text-emerald-400", ring: "ring-emerald-500/20", activeBg: "bg-emerald-500/15" },
-  sky: { bg: "bg-sky-500/10", text: "text-sky-400", ring: "ring-sky-500/20", activeBg: "bg-sky-500/15" },
-  violet: { bg: "bg-violet-500/10", text: "text-violet-400", ring: "ring-violet-500/20", activeBg: "bg-violet-500/15" },
-  amber: { bg: "bg-amber-500/10", text: "text-amber-400", ring: "ring-amber-500/20", activeBg: "bg-amber-500/15" },
-  rose: { bg: "bg-rose-500/10", text: "text-rose-400", ring: "ring-rose-500/20", activeBg: "bg-rose-500/15" },
+  emerald: { bg: "bg-zinc-500/10", text: "text-zinc-400", ring: "ring-zinc-500/20", activeBg: "bg-zinc-500/15" },
+  sky: { bg: "bg-zinc-500/10", text: "text-zinc-400", ring: "ring-zinc-500/20", activeBg: "bg-zinc-500/15" },
+  violet: { bg: "bg-zinc-500/10", text: "text-zinc-400", ring: "ring-zinc-500/20", activeBg: "bg-zinc-500/15" },
+  amber: { bg: "bg-zinc-500/10", text: "text-zinc-400", ring: "ring-zinc-500/20", activeBg: "bg-zinc-500/15" },
+  rose: { bg: "bg-zinc-500/10", text: "text-zinc-400", ring: "ring-zinc-500/20", activeBg: "bg-zinc-500/15" },
 };
 
 export default function ForumPage() {
@@ -181,19 +181,19 @@ export default function ForumPage() {
       {/* Page Header */}
       <div className="flex justify-between items-center mb-8">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-500/20 to-rose-500/20 flex items-center justify-center ring-1 ring-pink-500/30">
-            <svg className="w-6 h-6 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+          <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${isLight ? "bg-zinc-200 ring-1 ring-zinc-300" : "bg-zinc-700 ring-1 ring-zinc-600"}`}>
+            <svg className={`w-6 h-6 ${isLight ? "text-zinc-600" : "text-zinc-300"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
             </svg>
           </div>
           <div>
-            <h1 className={`text-2xl font-bold ${isLight ? "text-zinc-800" : "bg-gradient-to-r from-zinc-100 via-zinc-200 to-zinc-400 bg-clip-text text-transparent"}`}>
+            <h1 className={`text-2xl font-bold mb-1 ${isLight ? "text-zinc-800" : "text-zinc-100"}`}>
               Community Forum
             </h1>
-            <p className="text-sm text-zinc-500 mt-0.5">Connect, share, and learn with the LimeWP community</p>
+            <p className={`text-sm ${isLight ? "text-zinc-600" : "text-zinc-500"}`}>Connect, share, and learn with the LimeWP community</p>
           </div>
         </div>
-        <button className="group relative h-10 px-5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white text-sm font-semibold transition-all shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 hover:scale-[1.02] flex items-center gap-2">
+        <button className={`group relative h-10 px-5 rounded-xl text-sm font-semibold transition-all hover:scale-[1.02] flex items-center gap-2 ${isLight ? "bg-zinc-800 text-white hover:bg-zinc-700" : "bg-zinc-100 text-zinc-900 hover:bg-zinc-200"}`}>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 4v16m8-8H4" />
           </svg>
@@ -290,12 +290,12 @@ export default function ForumPage() {
                       <div className="flex items-start gap-2">
                         {thread.isPinned && (
                           <span className="flex-shrink-0 mt-1">
-                            <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-4 h-4 text-zinc-400" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M16 4h2a2 2 0 012 2v1a1 1 0 01-1 1h-.586l-.707.707A1 1 0 0117 9v2.586l1.707 1.707a1 1 0 010 1.414l-1.414 1.414a1 1 0 01-1.414 0L14.586 15h-1.172l-3.293 3.293a1 1 0 01-1.414 0l-1.414-1.414a1 1 0 010-1.414L10.586 13V11a1 1 0 00-.293-.707L9.586 9.586l-.707.707A1 1 0 018 10H7a2 2 0 01-2-2V6a2 2 0 012-2h2a1 1 0 001-1V2a1 1 0 011-1h2a1 1 0 011 1v1a1 1 0 001 1z" />
                             </svg>
                           </span>
                         )}
-                        <h4 className={`font-semibold group-hover:text-emerald-400 transition-colors leading-snug ${isLight ? "text-zinc-800" : "text-zinc-100"}`}>
+                        <h4 className={`font-semibold transition-colors leading-snug ${isLight ? "text-zinc-800 group-hover:text-zinc-900" : "text-zinc-100 group-hover:text-white"}`}>
                           {thread.title}
                         </h4>
                       </div>
@@ -370,14 +370,14 @@ export default function ForumPage() {
                 placeholder="Search discussions..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2.5 rounded-xl text-sm placeholder:text-zinc-500 focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all ${
+                className={`w-full pl-10 pr-4 py-2.5 rounded-xl text-sm placeholder:text-zinc-500 focus:outline-none focus:border-zinc-500/50 focus:ring-1 focus:ring-zinc-500/20 transition-all ${
                   isLight
                     ? "bg-zinc-100 border border-zinc-200 text-zinc-800"
                     : "bg-[#27272A]/50 border border-[#3F3F46]/50 text-zinc-300"
                 }`}
               />
             </div>
-            <button className="w-full mt-3 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white text-sm font-semibold transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
+            <button className={`w-full mt-3 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2 ${isLight ? "bg-zinc-800 text-white hover:bg-zinc-700" : "bg-zinc-100 text-zinc-900 hover:bg-zinc-200"}`}>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
               </svg>
@@ -388,7 +388,7 @@ export default function ForumPage() {
           {/* Forum Stats */}
           <div className={`rounded-2xl overflow-hidden ${isLight ? "bg-white border border-zinc-200" : "bg-[#18181B] border border-[#27272A]"}`}>
             <div className={`px-4 py-3 border-b flex items-center gap-2 ${isLight ? "border-zinc-200" : "border-[#27272A]"}`}>
-              <div className="w-7 h-7 rounded-lg bg-sky-500/10 text-sky-400 ring-1 ring-sky-500/20 flex items-center justify-center">
+              <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${isLight ? "bg-zinc-200 text-zinc-600 ring-1 ring-zinc-300" : "bg-zinc-700 text-zinc-400 ring-1 ring-zinc-600"}`}>
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
                 </svg>
@@ -416,7 +416,7 @@ export default function ForumPage() {
           {/* Top Contributors */}
           <div className={`rounded-2xl overflow-hidden ${isLight ? "bg-white border border-zinc-200" : "bg-[#18181B] border border-[#27272A]"}`}>
             <div className={`px-4 py-3 border-b flex items-center gap-2 ${isLight ? "border-zinc-200" : "border-[#27272A]"}`}>
-              <div className="w-7 h-7 rounded-lg bg-amber-500/10 text-amber-400 ring-1 ring-amber-500/20 flex items-center justify-center">
+              <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${isLight ? "bg-zinc-200 text-zinc-600 ring-1 ring-zinc-300" : "bg-zinc-700 text-zinc-400 ring-1 ring-zinc-600"}`}>
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0" />
                 </svg>
@@ -455,7 +455,7 @@ export default function ForumPage() {
           {/* Trending Tags */}
           <div className={`rounded-2xl overflow-hidden ${isLight ? "bg-white border border-zinc-200" : "bg-[#18181B] border border-[#27272A]"}`}>
             <div className={`px-4 py-3 border-b flex items-center gap-2 ${isLight ? "border-zinc-200" : "border-[#27272A]"}`}>
-              <div className="w-7 h-7 rounded-lg bg-rose-500/10 text-rose-400 ring-1 ring-rose-500/20 flex items-center justify-center">
+              <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${isLight ? "bg-zinc-200 text-zinc-600 ring-1 ring-zinc-300" : "bg-zinc-700 text-zinc-400 ring-1 ring-zinc-600"}`}>
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
                 </svg>
@@ -466,8 +466,10 @@ export default function ForumPage() {
               {trendingTags.map((tag) => (
                 <span
                   key={tag}
-                  className={`px-3 py-1.5 rounded-lg text-xs hover:text-emerald-400 hover:bg-emerald-500/10 cursor-pointer transition-all border border-transparent hover:border-emerald-500/20 ${
-                    isLight ? "bg-zinc-100 text-zinc-600" : "bg-[#27272A]/50 text-zinc-400"
+                  className={`px-3 py-1.5 rounded-lg text-xs cursor-pointer transition-all border border-transparent ${
+                    isLight
+                      ? "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-800 hover:border-zinc-300"
+                      : "bg-[#27272A]/50 text-zinc-400 hover:bg-zinc-700 hover:text-zinc-200 hover:border-zinc-600"
                   }`}
                 >
                   #{tag}

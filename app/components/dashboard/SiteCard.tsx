@@ -16,9 +16,9 @@ export function SiteCard({ site, onVisit, onManage }: SiteCardProps) {
 
   const healthStatus = site.health >= 80 ? "good" : site.health >= 60 ? "warning" : "critical";
   const healthColors = {
-    good: isLight ? "text-emerald-600" : "text-emerald-400",
-    warning: isLight ? "text-amber-600" : "text-amber-400",
-    critical: isLight ? "text-rose-600" : "text-rose-400",
+    good: isLight ? "text-zinc-700" : "text-zinc-300",
+    warning: isLight ? "text-zinc-600" : "text-zinc-400",
+    critical: isLight ? "text-zinc-500" : "text-zinc-500",
   };
 
   return (
@@ -49,8 +49,7 @@ export function SiteCard({ site, onVisit, onManage }: SiteCardProps) {
               )}>{site.name}</span>
               {/* Online indicator */}
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                <span className={`relative inline-flex rounded-full h-2 w-2 ${isLight ? "bg-zinc-400" : "bg-zinc-500"}`}></span>
               </span>
             </div>
             <span className={cn(
@@ -129,7 +128,7 @@ export function SiteCard({ site, onVisit, onManage }: SiteCardProps) {
               <div
                 className={cn(
                   "h-full rounded-full transition-all",
-                  site.cpu < 50 ? "bg-emerald-500" : site.cpu < 75 ? "bg-amber-500" : "bg-rose-500"
+                  isLight ? "bg-zinc-400" : "bg-zinc-500"
                 )}
                 style={{ width: `${site.cpu}%` }}
               />
@@ -153,7 +152,7 @@ export function SiteCard({ site, onVisit, onManage }: SiteCardProps) {
               <div
                 className={cn(
                   "h-full rounded-full transition-all",
-                  site.memory < 50 ? "bg-emerald-500" : site.memory < 75 ? "bg-amber-500" : "bg-rose-500"
+                  isLight ? "bg-zinc-400" : "bg-zinc-500"
                 )}
                 style={{ width: `${site.memory}%` }}
               />

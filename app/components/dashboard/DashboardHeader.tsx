@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useTheme } from "@/lib/context/ThemeContext";
+import { getColorClasses } from "@/lib/utils/colors";
 import { ROUTES } from "@/config/routes";
 
 interface DashboardHeaderProps {
@@ -10,8 +11,9 @@ interface DashboardHeaderProps {
 }
 
 export function DashboardHeader({ userName, onRefresh }: DashboardHeaderProps) {
-  const { resolvedTheme } = useTheme();
+  const { resolvedTheme, accentColor } = useTheme();
   const isLight = resolvedTheme === "light";
+  const accent = getColorClasses(accentColor);
 
   return (
     <div className="flex justify-between items-start mb-8">
@@ -20,10 +22,13 @@ export function DashboardHeader({ userName, onRefresh }: DashboardHeaderProps) {
           <h1 className={`text-3xl font-bold bg-gradient-to-r bg-clip-text text-transparent ${
             isLight ? "from-zinc-800 to-zinc-600" : "from-zinc-100 to-zinc-300"
           }`}>Welcome back, {userName}</h1>
-          <span className="text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full ring-1 ring-emerald-500/20 flex items-center gap-2 shadow-sm shadow-emerald-500/10">
+          <span className={`text-[11px] font-semibold px-3 py-1.5 rounded-full ring-1 flex items-center gap-2 shadow-sm ${
+            isLight
+              ? "text-zinc-600 bg-zinc-100 ring-zinc-200"
+              : "text-zinc-400 bg-zinc-800 ring-zinc-700"
+          }`}>
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              <span className={`relative inline-flex rounded-full h-2 w-2 ${isLight ? "bg-zinc-500" : "bg-zinc-400"}`}></span>
             </span>
             All systems online
           </span>
@@ -47,7 +52,7 @@ export function DashboardHeader({ userName, onRefresh }: DashboardHeaderProps) {
         </button>
         <Link
           href={ROUTES.NEW_SITE}
-          className="font-semibold text-sm bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:from-emerald-400 hover:to-emerald-500 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all gap-2 rounded-xl h-10 px-4 flex items-center"
+          className={`font-semibold text-sm text-white shadow-lg transition-all gap-2 rounded-xl h-10 px-4 flex items-center ${accent.button} ${accent.buttonHover} ${accent.buttonShadow}`}
         >
           <div className="w-5 h-5 rounded-lg bg-white/20 flex items-center justify-center">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">

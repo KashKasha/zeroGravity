@@ -86,21 +86,10 @@ export default function DnsManagementPage() {
   return (
     <AppShell>
       {/* Page Header */}
-      <div className="flex justify-between items-start mb-6">
+      <div className="flex justify-between items-start mb-8">
         <div>
-          <div className="flex items-center gap-3 mb-2">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-              isLight ? "bg-zinc-100" : "bg-zinc-800"
-            }`}>
-              <svg className={`w-5 h-5 ${isLight ? "text-zinc-600" : "text-zinc-400"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18zM3.6 9h16.8M3.6 15h16.8M12 3c-2.4 0-4.5 4-4.5 9s2.1 9 4.5 9 4.5-4 4.5-9-2.1-9-4.5-9z" />
-              </svg>
-            </div>
-            <div>
-              <h1 className={`text-xl font-bold ${isLight ? "text-zinc-800" : "text-zinc-100"}`}>DNS Management</h1>
-              <p className={`text-sm ${isLight ? "text-zinc-500" : "text-zinc-500"}`}>Configure DNS records for your domains</p>
-            </div>
-          </div>
+          <h1 className={`text-2xl font-bold mb-1 ${isLight ? "text-zinc-800" : "text-zinc-100"}`}>DNS Management</h1>
+          <p className={`text-sm ${isLight ? "text-zinc-600" : "text-zinc-500"}`}>Configure DNS records for your domains</p>
         </div>
         <div className="flex items-center gap-2">
           <Dropdown>

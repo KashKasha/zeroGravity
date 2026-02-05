@@ -10,6 +10,7 @@ import {
   Button,
 } from "@heroui/react";
 import { useTheme } from "@/lib/context/ThemeContext";
+import { getColorClasses } from "@/lib/utils/colors";
 
 interface UpgradeModalProps {
   isOpen: boolean;
@@ -51,8 +52,9 @@ const PLANS = [
 ];
 
 export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
-  const { resolvedTheme } = useTheme();
+  const { resolvedTheme, accentColor } = useTheme();
   const isLight = resolvedTheme === "light";
+  const accent = getColorClasses(accentColor);
   const [selectedPlan, setSelectedPlan] = useState("pro");
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -130,15 +132,15 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
                   className={`relative p-4 rounded-xl border-2 transition-all text-left ${
                     selectedPlan === plan.id
                       ? isLight
-                        ? "border-cyan-500 bg-cyan-50/50"
-                        : "border-cyan-500 bg-cyan-500/10"
+                        ? "border-zinc-400 bg-zinc-100/50"
+                        : "border-zinc-500 bg-zinc-800/50"
                       : isLight
                         ? "border-zinc-200 hover:border-zinc-300 bg-zinc-50"
                         : "border-[#2A2A2E] hover:border-[#3F3F46] bg-[#1E1E21]"
                   }`}
                 >
                   {plan.popular && (
-                    <span className="absolute -top-2.5 left-4 text-[10px] font-bold px-2 py-0.5 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white">
+                    <span className={`absolute -top-2.5 left-4 text-[10px] font-bold px-2 py-0.5 rounded-full bg-gradient-to-r ${accent.gradient} text-white`}>
                       POPULAR
                     </span>
                   )}
@@ -169,7 +171,7 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
                         className="flex items-center gap-2 text-xs text-zinc-500"
                       >
                         <svg
-                          className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0"
+                          className={`w-3.5 h-3.5 flex-shrink-0 ${isLight ? "text-zinc-500" : "text-zinc-400"}`}
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -213,7 +215,7 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
                     {PLANS.find((p) => p.id === selectedPlan)?.price}/mo
                   </span>
                 </div>
-                <div className="flex justify-between text-emerald-500">
+                <div className={`flex justify-between ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>
                   <span>Annual discount (20%)</span>
                   <span>
                     -$
@@ -285,7 +287,7 @@ export function UpgradeModal({ isOpen, onClose }: UpgradeModalProps) {
           <Button
             onPress={handleUpgrade}
             isLoading={isProcessing}
-            className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-sm rounded-xl h-10 px-5 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/30 transition-all"
+            className={`text-white font-semibold text-sm rounded-xl h-10 px-5 shadow-lg transition-all ${accent.button} ${accent.buttonHover} ${accent.buttonShadow}`}
           >
             {isProcessing ? "Processing..." : "Upgrade Now"}
           </Button>

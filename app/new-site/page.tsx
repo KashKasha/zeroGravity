@@ -27,7 +27,6 @@ const PACKAGES = [
     period: "/month",
     description: "Perfect for small sites",
     features: ["1 Website", "10GB SSD Storage", "Free SSL Certificate", "Daily Backups"],
-    icon: "starter",
   },
   {
     id: "premium",
@@ -36,7 +35,6 @@ const PACKAGES = [
     period: "/month",
     description: "Ideal for growing businesses",
     features: ["5 Websites", "50GB SSD Storage", "Free SSL Certificate", "Daily Backups", "Staging Environment", "Priority Support"],
-    icon: "premium",
     popular: true,
   },
   {
@@ -46,7 +44,6 @@ const PACKAGES = [
     period: "/month",
     description: "For high-traffic sites and agencies",
     features: ["Unlimited Websites", "100GB SSD Storage", "Free SSL Certificate", "Hourly Backups", "Staging Environment", "24/7 Priority Support", "Global CDN"],
-    icon: "business",
   },
 ];
 
@@ -334,36 +331,20 @@ export default function NewSitePage() {
                     </div>
                   )}
 
-                  {/* Package Icon & Name Row */}
-                  <div className="flex items-center gap-3.5 mb-5 w-full">
-                    <div className={cn(
-                      "w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0",
-                      selectedPackage === pkg.id
-                        ? `bg-gradient-to-br ${colors.gradient}`
-                        : isLight ? "bg-zinc-100" : "bg-zinc-800"
+                  {/* Package Name & Description */}
+                  <div className="mb-5 w-full">
+                    <h3 className={cn(
+                      "text-lg font-bold leading-tight mb-0.5",
+                      isLight ? "text-zinc-900" : "text-zinc-100"
                     )}>
-                      <StepIcon
-                        type={pkg.icon}
-                        className={cn(
-                          "w-6 h-6",
-                          selectedPackage === pkg.id ? "text-white" : isLight ? "text-zinc-600" : "text-zinc-400"
-                        )}
-                      />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className={cn(
-                        "text-lg font-bold leading-tight mb-0.5",
-                        isLight ? "text-zinc-900" : "text-zinc-100"
-                      )}>
-                        {pkg.name}
-                      </h3>
-                      <p className={cn(
-                        "text-xs",
-                        isLight ? "text-zinc-500" : "text-zinc-500"
-                      )}>
-                        {pkg.description}
-                      </p>
-                    </div>
+                      {pkg.name}
+                    </h3>
+                    <p className={cn(
+                      "text-xs",
+                      isLight ? "text-zinc-500" : "text-zinc-500"
+                    )}>
+                      {pkg.description}
+                    </p>
                   </div>
 
                   {/* Price Section */}
@@ -928,6 +909,21 @@ export default function NewSitePage() {
                   />
                 </div>
               </div>
+
+              {/* Credentials Warning */}
+              <div className={cn(
+                "mt-4 rounded-lg p-3 flex items-start gap-2.5",
+                isLight
+                  ? "bg-amber-50 border border-amber-200"
+                  : "bg-amber-500/10 border border-amber-500/20"
+              )}>
+                <svg className={cn("w-4 h-4 flex-shrink-0 mt-0.5", isLight ? "text-amber-600" : "text-amber-400")} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                </svg>
+                <p className={cn("text-xs leading-relaxed", isLight ? "text-amber-700" : "text-amber-300/90")}>
+                  <span className="font-semibold">Save these credentials!</span> You&apos;ll need them to log into your WordPress dashboard.
+                </p>
+              </div>
             </div>
           </div>
         );
@@ -1029,7 +1025,7 @@ export default function NewSitePage() {
 
   return (
     <AppShell>
-      <div className="max-w-4xl mx-auto pb-6">
+      <div className="max-w-3xl mx-auto pb-6">
         {/* Header */}
         <div className="mb-4">
           <button
