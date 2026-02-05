@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "@heroui/react";
+import Link from "next/link";
 import { useTheme } from "@/lib/context/ThemeContext";
+import { ROUTES } from "@/config/routes";
 
 interface DashboardHeaderProps {
   userName: string;
   onRefresh?: () => void;
-  onAddSite?: () => void;
 }
 
-export function DashboardHeader({ userName, onRefresh, onAddSite }: DashboardHeaderProps) {
+export function DashboardHeader({ userName, onRefresh }: DashboardHeaderProps) {
   const { resolvedTheme } = useTheme();
   const isLight = resolvedTheme === "light";
 
@@ -45,19 +45,17 @@ export function DashboardHeader({ userName, onRefresh, onAddSite }: DashboardHea
             <path d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
           </svg>
         </button>
-        <Button
-          onClick={onAddSite}
-          className="font-semibold text-sm bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:from-emerald-400 hover:to-emerald-500 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all gap-2 rounded-xl h-10"
-          startContent={
-            <div className="w-5 h-5 rounded-lg bg-white/20 flex items-center justify-center">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 4v16m8-8H4" />
-              </svg>
-            </div>
-          }
+        <Link
+          href={ROUTES.NEW_SITE}
+          className="font-semibold text-sm bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:from-emerald-400 hover:to-emerald-500 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 transition-all gap-2 rounded-xl h-10 px-4 flex items-center"
         >
+          <div className="w-5 h-5 rounded-lg bg-white/20 flex items-center justify-center">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 4v16m8-8H4" />
+            </svg>
+          </div>
           Add New Site
-        </Button>
+        </Link>
       </div>
     </div>
   );

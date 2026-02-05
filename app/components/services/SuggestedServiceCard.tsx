@@ -1,8 +1,8 @@
 "use client";
 
-import { getColorClasses } from "@/lib/utils/colors";
 import { useTheme } from "@/lib/context/ThemeContext";
-import { SERVICE_BADGE_STYLES, type SuggestedService } from "@/data/services";
+import { getColorClasses } from "@/lib/utils/colors";
+import type { SuggestedService } from "@/data/services";
 
 interface SuggestedServiceCardProps {
   service: SuggestedService;
@@ -10,9 +10,9 @@ interface SuggestedServiceCardProps {
 }
 
 export function SuggestedServiceCard({ service, onAdd }: SuggestedServiceCardProps) {
-  const { resolvedTheme } = useTheme();
+  const { resolvedTheme, accentColor } = useTheme();
   const isLight = resolvedTheme === "light";
-  const colors = getColorClasses(service.color);
+  const accent = getColorClasses(accentColor);
 
   return (
     <div className={`group relative rounded-2xl border transition-all overflow-hidden cursor-pointer ${
@@ -20,19 +20,20 @@ export function SuggestedServiceCard({ service, onAdd }: SuggestedServiceCardPro
         ? "bg-white border-zinc-200 hover:border-zinc-300 hover:shadow-lg hover:shadow-zinc-200/50"
         : "bg-gradient-to-br from-[#1E1E21] to-[#1a1a1d] border-[#2A2A2E] hover:border-[#3F3F46]"
     }`}>
-      {/* Corner Glow on Hover */}
-      <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${colors.glow} to-transparent rounded-full -translate-y-1/2 translate-x-1/3 opacity-0 group-hover:opacity-100 transition-opacity`} />
-
       <div className="relative p-5">
         {/* Header */}
         <div className="flex items-start justify-between gap-3 mb-3">
-          <div className={`w-11 h-11 rounded-xl ${colors.bg} ${colors.text} ring-1 ${colors.ring} flex items-center justify-center transition-transform group-hover:scale-105`}>
+          <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105 ${
+            isLight ? "bg-zinc-100 text-zinc-600 ring-1 ring-zinc-200" : "bg-zinc-800 text-zinc-400 ring-1 ring-zinc-700"
+          }`}>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
               <path d={service.icon} />
             </svg>
           </div>
           {service.badge && (
-            <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-md ring-1 ${SERVICE_BADGE_STYLES[service.badge.type]}`}>
+            <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-md ring-1 ${
+              isLight ? "bg-zinc-100 text-zinc-600 ring-zinc-200" : "bg-zinc-800 text-zinc-400 ring-zinc-700"
+            }`}>
               {service.badge.label}
             </span>
           )}
@@ -61,7 +62,7 @@ export function SuggestedServiceCard({ service, onAdd }: SuggestedServiceCardPro
           </div>
           <button
             onClick={() => onAdd?.(service)}
-            className={`h-9 px-4 rounded-lg ${colors.bg} ${colors.text} ring-1 ${colors.ring} text-sm font-semibold hover:opacity-80 transition-all flex items-center gap-2 group-hover:ring-2`}
+            className={`h-9 px-4 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 text-white ${accent.button} ${accent.buttonHover}`}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 4v16m8-8H4" />

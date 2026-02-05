@@ -7,6 +7,7 @@
 export const ROUTES = {
   HOME: "/",
   DASHBOARD: "/dashboard",
+  NEW_SITE: "/new-site",
 
   // Operations
   SERVICES: "/services",

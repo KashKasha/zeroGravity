@@ -24,5 +24,16 @@ module.exports = {
     },
   },
   darkMode: "class",
-  plugins: [heroui()],
+  plugins: [
+    heroui({
+      addCommonColors: true,
+    }),
+    function({ addBase }) {
+      addBase({
+        '*:focus-visible': {
+          outline: 'none !important',
+        },
+      });
+    },
+  ],
 };

@@ -2,14 +2,16 @@
 
 import { Button } from "@heroui/react";
 import { useTheme } from "@/lib/context/ThemeContext";
+import { getColorClasses } from "@/lib/utils/colors";
 
 interface ServicesHeaderProps {
   onAddService?: () => void;
 }
 
 export function ServicesHeader({ onAddService }: ServicesHeaderProps) {
-  const { resolvedTheme } = useTheme();
+  const { resolvedTheme, accentColor } = useTheme();
   const isLight = resolvedTheme === "light";
+  const accent = getColorClasses(accentColor);
 
   return (
     <div className="flex justify-between items-start mb-8">
@@ -19,8 +21,7 @@ export function ServicesHeader({ onAddService }: ServicesHeaderProps) {
       </div>
       <Button
         onClick={onAddService}
-        className="font-semibold text-sm bg-gradient-to-r from-emerald-500 to-emerald-600 text-white hover:from-emerald-400 hover:to-emerald-500 gap-2 shadow-lg shadow-emerald-500/20"
-        radius="lg"
+        className={`font-semibold text-sm gap-2 rounded-xl h-10 px-5 text-white shadow-lg ${accent.button} ${accent.buttonHover} ${accent.buttonShadow}`}
         startContent={
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 4v16m8-8H4" />

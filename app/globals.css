@@ -258,19 +258,4 @@ body {
   @apply from-[#1E1E21] to-[#1a1a1d];
 }
 
-/* Focus ring accent */
-[data-accent="emerald"] *:focus-visible {
-  @apply outline-emerald-500;
-}
-[data-accent="sky"] *:focus-visible {
-  @apply outline-sky-500;
-}
-[data-accent="violet"] *:focus-visible {
-  @apply outline-violet-500;
-}
-[data-accent="amber"] *:focus-visible {
-  @apply outline-amber-500;
-}
-[data-accent="pink"] *:focus-visible {
-  @apply outline-pink-500;
-}
+

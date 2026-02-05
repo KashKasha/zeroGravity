@@ -10,10 +10,9 @@ interface SiteGridProps {
   sites: DashboardSite[];
   onVisitSite?: (site: DashboardSite) => void;
   onManageSite?: (site: DashboardSite) => void;
-  onAddSite?: () => void;
 }
 
-export function SiteGrid({ sites, onVisitSite, onManageSite, onAddSite }: SiteGridProps) {
+export function SiteGrid({ sites, onVisitSite, onManageSite }: SiteGridProps) {
   const { resolvedTheme } = useTheme();
   const isLight = resolvedTheme === "light";
 
@@ -35,20 +34,6 @@ export function SiteGrid({ sites, onVisitSite, onManageSite, onAddSite }: SiteGr
             {sites.length}
           </span>
         </div>
-        <button
-          onClick={onAddSite}
-          className={cn(
-            "flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg transition-colors",
-            isLight
-              ? "text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100"
-              : "text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800"
-          )}
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-          </svg>
-          Add Site
-        </button>
       </div>
 
       {/* Site Grid */}
@@ -61,7 +46,7 @@ export function SiteGrid({ sites, onVisitSite, onManageSite, onAddSite }: SiteGr
             onManage={() => onManageSite?.(site)}
           />
         ))}
-        <AddSiteCard onClick={onAddSite} />
+        <AddSiteCard />
       </div>
     </div>
   );

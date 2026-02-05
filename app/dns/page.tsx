@@ -24,23 +24,7 @@ const dnsRecords = [
   { type: "NS", name: "@", content: "ns2.limewp.com", ttl: "86400", proxy: false, modified: "1 month ago" },
 ];
 
-const colorClasses: Record<string, { bg: string; bgLight: string; text: string; ring: string; gradient: string; border: string }> = {
-  emerald: { bg: "bg-emerald-500/10", bgLight: "bg-emerald-50", text: "text-emerald-500", ring: "ring-emerald-500/20", gradient: "from-emerald-500 to-emerald-600", border: "border-emerald-500/30" },
-  sky: { bg: "bg-sky-500/10", bgLight: "bg-sky-50", text: "text-sky-500", ring: "ring-sky-500/20", gradient: "from-sky-500 to-sky-600", border: "border-sky-500/30" },
-  violet: { bg: "bg-violet-500/10", bgLight: "bg-violet-50", text: "text-violet-500", ring: "ring-violet-500/20", gradient: "from-violet-500 to-violet-600", border: "border-violet-500/30" },
-  amber: { bg: "bg-amber-500/10", bgLight: "bg-amber-50", text: "text-amber-500", ring: "ring-amber-500/20", gradient: "from-amber-500 to-amber-600", border: "border-amber-500/30" },
-  rose: { bg: "bg-rose-500/10", bgLight: "bg-rose-50", text: "text-rose-500", ring: "ring-rose-500/20", gradient: "from-rose-500 to-rose-600", border: "border-rose-500/30" },
-  cyan: { bg: "bg-cyan-500/10", bgLight: "bg-cyan-50", text: "text-cyan-500", ring: "ring-cyan-500/20", gradient: "from-cyan-500 to-cyan-600", border: "border-cyan-500/30" },
-};
-
-const typeColorMap: Record<string, string> = {
-  A: "emerald",
-  CNAME: "sky",
-  MX: "violet",
-  TXT: "amber",
-  AAAA: "rose",
-  NS: "cyan",
-};
+const recordTypes = ["A", "CNAME", "MX", "TXT", "AAAA", "NS"];
 
 const domains = [
   { name: "limewp.com", records: 10, status: "Active", ssl: "Active", nameservers: "LimeWP" },
@@ -106,9 +90,9 @@ export default function DnsManagementPage() {
         <div>
           <div className="flex items-center gap-3 mb-2">
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-              isLight ? "bg-amber-50" : "bg-amber-500/10"
+              isLight ? "bg-zinc-100" : "bg-zinc-800"
             }`}>
-              <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+              <svg className={`w-5 h-5 ${isLight ? "text-zinc-600" : "text-zinc-400"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18zM3.6 9h16.8M3.6 15h16.8M12 3c-2.4 0-4.5 4-4.5 9s2.1 9 4.5 9 4.5-4 4.5-9-2.1-9-4.5-9z" />
               </svg>
             </div>
@@ -151,7 +135,11 @@ export default function DnsManagementPage() {
               >Flush Cache</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-          <Button className="font-semibold text-sm bg-gradient-to-r from-amber-500 to-amber-600 text-white hover:from-amber-400 hover:to-amber-500 gap-2 rounded-xl shadow-lg shadow-amber-500/20 h-10 px-5"
+          <Button className={`font-semibold text-sm gap-2 rounded-xl h-10 px-5 ${
+            isLight
+              ? "bg-zinc-900 text-white hover:bg-zinc-800"
+              : "bg-zinc-100 text-zinc-900 hover:bg-zinc-200"
+          }`}
             startContent={<svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>}
           >Add Record</Button>
         </div>
@@ -167,8 +155,10 @@ export default function DnsManagementPage() {
                 <button className={`flex items-center gap-3 rounded-xl px-4 py-2.5 transition-colors ${
                   isLight ? "bg-zinc-50 hover:bg-zinc-100" : "bg-zinc-900/50 hover:bg-zinc-800/80"
                 }`}>
-                  <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${
+                    isLight ? "bg-zinc-200" : "bg-zinc-700"
+                  }`}>
+                    <svg className={`w-4 h-4 ${isLight ? "text-zinc-600" : "text-zinc-300"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18zM3.6 9h16.8M3.6 15h16.8" />
                     </svg>
                   </div>
@@ -200,12 +190,13 @@ export default function DnsManagementPage() {
             </Dropdown>
 
             <div className="flex items-center gap-2">
-              <span className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-500/10 ring-1 ring-emerald-500/20">
+              <span className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg ${
+                isLight ? "bg-zinc-100" : "bg-zinc-800"
+              }`}>
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  <span className={`relative inline-flex rounded-full h-2 w-2 ${isLight ? "bg-zinc-500" : "bg-zinc-400"}`}></span>
                 </span>
-                <span className="text-[11px] font-semibold text-emerald-500">Propagated</span>
+                <span className={`text-[11px] font-semibold ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>Propagated</span>
               </span>
             </div>
           </div>
@@ -213,27 +204,23 @@ export default function DnsManagementPage() {
           {/* Stats Row */}
           <div className="grid grid-cols-4 gap-4">
             {[
-              { label: "Total Records", value: selectedDomainData?.records || 0, icon: "M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4", color: "amber" },
-              { label: "Nameservers", value: selectedDomainData?.nameservers || "-", icon: "M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7", color: "sky" },
-              { label: "SSL Status", value: selectedDomainData?.ssl || "-", icon: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z", color: "emerald", isStatus: true },
-              { label: "DNSSEC", value: "Enabled", icon: "M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z", color: "violet" },
+              { label: "Total Records", value: selectedDomainData?.records || 0, icon: "M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" },
+              { label: "Nameservers", value: selectedDomainData?.nameservers || "-", icon: "M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7" },
+              { label: "SSL Status", value: selectedDomainData?.ssl || "-", icon: "M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" },
+              { label: "DNSSEC", value: "Enabled", icon: "M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" },
             ].map((stat) => (
               <div key={stat.label} className={`p-4 rounded-xl ${isLight ? "bg-zinc-50" : "bg-zinc-900/50"}`}>
                 <div className="flex items-center gap-3">
                   <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${
-                    isLight ? colorClasses[stat.color].bgLight : colorClasses[stat.color].bg
+                    isLight ? "bg-zinc-200" : "bg-zinc-800"
                   }`}>
-                    <svg className={`w-4 h-4 ${colorClasses[stat.color].text}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <svg className={`w-4 h-4 ${isLight ? "text-zinc-500" : "text-zinc-400"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d={stat.icon} />
                     </svg>
                   </div>
                   <div>
                     <div className={`text-[10px] uppercase tracking-wider font-medium ${isLight ? "text-zinc-400" : "text-zinc-500"}`}>{stat.label}</div>
-                    <div className={`text-sm font-semibold ${
-                      stat.isStatus
-                        ? stat.value === "Active" ? "text-emerald-500" : "text-amber-500"
-                        : isLight ? "text-zinc-800" : "text-zinc-100"
-                    }`}>{stat.value}</div>
+                    <div className={`text-sm font-semibold ${isLight ? "text-zinc-800" : "text-zinc-100"}`}>{stat.value}</div>
                   </div>
                 </div>
               </div>
@@ -245,12 +232,14 @@ export default function DnsManagementPage() {
         <div className={`col-span-4 rounded-2xl p-5 ${cardBase}`}>
           <div className="flex items-center justify-between mb-4">
             <h3 className={`text-sm font-semibold ${isLight ? "text-zinc-800" : "text-zinc-100"}`}>Global Propagation</h3>
-            <span className="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-lg">100%</span>
+            <span className={`text-xs font-bold px-2 py-1 rounded-lg ${
+              isLight ? "text-zinc-600 bg-zinc-100" : "text-zinc-300 bg-zinc-800"
+            }`}>100%</span>
           </div>
 
           {/* Progress Bar */}
           <div className={`h-2 rounded-full mb-4 overflow-hidden ${isLight ? "bg-zinc-200" : "bg-zinc-800"}`}>
-            <div className="h-full w-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full" />
+            <div className={`h-full w-full rounded-full ${isLight ? "bg-zinc-500" : "bg-zinc-400"}`} />
           </div>
 
           <div className="space-y-2.5">
@@ -264,7 +253,7 @@ export default function DnsManagementPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className={`text-xs ${isLight ? "text-zinc-500" : "text-zinc-500"}`}>{server.latency}</span>
-                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span className={`w-2 h-2 rounded-full ${isLight ? "bg-zinc-400" : "bg-zinc-500"}`} />
                 </div>
               </div>
             ))}
@@ -289,8 +278,7 @@ export default function DnsManagementPage() {
           All Records
           <span className={`ml-2 text-xs ${typeFilter === "All" ? "opacity-70" : "opacity-50"}`}>{dnsRecords.length}</span>
         </button>
-        {Object.entries(typeColorMap).map(([type, colorKey]) => {
-          const colors = colorClasses[colorKey];
+        {recordTypes.map((type) => {
           const count = recordTypeCounts[type] || 0;
           const isActive = typeFilter === type;
           return (
@@ -299,16 +287,18 @@ export default function DnsManagementPage() {
               onClick={() => setTypeFilter(type === typeFilter ? "All" : type)}
               className={`px-4 py-2 rounded-xl text-sm font-medium transition-all flex items-center gap-2 ${
                 isActive
-                  ? `${colors.bg} ${colors.text} ring-1 ${colors.ring}`
+                  ? isLight
+                    ? "bg-zinc-900 text-white"
+                    : "bg-white text-zinc-900"
                   : isLight
                     ? "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
                     : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700"
               }`}
             >
-              <span className={`font-mono font-bold ${isActive ? colors.text : ""}`}>{type}</span>
+              <span className="font-mono font-bold">{type}</span>
               <span className={`text-xs px-1.5 py-0.5 rounded ${
                 isActive
-                  ? `${colors.bg} ${colors.text}`
+                  ? isLight ? "bg-zinc-700 text-zinc-200" : "bg-zinc-200 text-zinc-700"
                   : isLight ? "bg-zinc-200 text-zinc-500" : "bg-zinc-700 text-zinc-400"
               }`}>{count}</span>
             </button>
@@ -331,8 +321,8 @@ export default function DnsManagementPage() {
                 onChange={(e) => setSearchFilter(e.target.value)}
                 className={`w-full pl-10 pr-4 py-2.5 rounded-xl text-sm transition-all outline-none ${
                   isLight
-                    ? "bg-zinc-100 text-zinc-800 placeholder:text-zinc-400 focus:bg-zinc-50 focus:ring-2 focus:ring-amber-500/20"
-                    : "bg-zinc-900/50 text-zinc-200 placeholder:text-zinc-500 focus:bg-zinc-900 focus:ring-2 focus:ring-amber-500/20"
+                    ? "bg-zinc-100 text-zinc-800 placeholder:text-zinc-400 focus:bg-zinc-50 focus:ring-2 focus:ring-zinc-300"
+                    : "bg-zinc-900/50 text-zinc-200 placeholder:text-zinc-500 focus:bg-zinc-900 focus:ring-2 focus:ring-zinc-600"
                 }`}
               />
             </div>
@@ -340,8 +330,8 @@ export default function DnsManagementPage() {
               <button
                 onClick={() => setTypeFilter("All")}
                 className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                  colorClasses[typeColorMap[typeFilter]].bg
-                } ${colorClasses[typeColorMap[typeFilter]].text}`}
+                  isLight ? "bg-zinc-200 text-zinc-700" : "bg-zinc-700 text-zinc-300"
+                }`}
               >
                 {typeFilter}
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -352,7 +342,9 @@ export default function DnsManagementPage() {
           </div>
           <div className="flex items-center gap-2 text-sm text-zinc-500">
             <span>{filteredRecords.length} records</span>
-            <button className="flex items-center gap-1.5 text-amber-500 hover:text-amber-400 font-medium transition-colors">
+            <button className={`flex items-center gap-1.5 font-medium transition-colors ${
+              isLight ? "text-zinc-600 hover:text-zinc-800" : "text-zinc-400 hover:text-zinc-200"
+            }`}>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
               </svg>
@@ -389,8 +381,6 @@ export default function DnsManagementPage() {
             </div>
           ) : (
             filteredRecords.map((record, index) => {
-              const colorKey = typeColorMap[record.type] || "emerald";
-              const colors = colorClasses[colorKey];
               const recordId = `${record.type}-${record.name}-${index}`;
               return (
                 <div
@@ -400,7 +390,9 @@ export default function DnsManagementPage() {
                   }`}
                 >
                   <div className="col-span-1">
-                    <span className={`inline-flex px-2.5 py-1 rounded-lg text-xs font-mono font-bold ${colors.bg} ${colors.text}`}>
+                    <span className={`inline-flex px-2.5 py-1 rounded-lg text-xs font-mono font-bold ${
+                      isLight ? "bg-zinc-100 text-zinc-700" : "bg-zinc-800 text-zinc-300"
+                    }`}>
                       {record.type}
                     </span>
                   </div>
@@ -414,7 +406,7 @@ export default function DnsManagementPage() {
                         onClick={() => copyToClipboard(record.content, recordId)}
                         className={`p-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all flex-shrink-0 ${
                           copiedRecord === recordId
-                            ? "bg-emerald-500/10 text-emerald-500"
+                            ? isLight ? "bg-zinc-200 text-zinc-700" : "bg-zinc-700 text-zinc-200"
                             : isLight
                               ? "hover:bg-zinc-200 text-zinc-400"
                               : "hover:bg-zinc-700 text-zinc-500"
@@ -440,14 +432,14 @@ export default function DnsManagementPage() {
                   </div>
                   <div className="col-span-1">
                     {record.proxy ? (
-                      <span className="flex items-center gap-1.5 text-amber-500">
+                      <span className={`flex items-center gap-1.5 ${isLight ? "text-zinc-700" : "text-zinc-300"}`}>
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
                         </svg>
                         <span className="text-xs font-medium">On</span>
                       </span>
                     ) : (
-                      <span className="flex items-center gap-1.5 text-zinc-400">
+                      <span className={`flex items-center gap-1.5 ${isLight ? "text-zinc-400" : "text-zinc-500"}`}>
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" />
                         </svg>
@@ -460,14 +452,14 @@ export default function DnsManagementPage() {
                   </div>
                   <div className="col-span-1 flex items-center justify-end gap-1">
                     <button className={`p-2 rounded-lg transition-all ${
-                      isLight ? "text-zinc-400 hover:text-amber-600 hover:bg-amber-50" : "text-zinc-500 hover:text-amber-400 hover:bg-amber-500/10"
+                      isLight ? "text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100" : "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800"
                     }`}>
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
                       </svg>
                     </button>
                     <button className={`p-2 rounded-lg transition-all ${
-                      isLight ? "text-zinc-400 hover:text-rose-600 hover:bg-rose-50" : "text-zinc-500 hover:text-rose-400 hover:bg-rose-500/10"
+                      isLight ? "text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100" : "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800"
                     }`}>
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
@@ -485,8 +477,10 @@ export default function DnsManagementPage() {
       <div className={`mt-6 rounded-2xl p-5 ${cardBase}`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-sky-400 to-violet-600 flex items-center justify-center flex-shrink-0">
-              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${
+              isLight ? "bg-zinc-100" : "bg-zinc-800"
+            }`}>
+              <svg className={`w-5 h-5 ${isLight ? "text-zinc-500" : "text-zinc-400"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
               </svg>
             </div>

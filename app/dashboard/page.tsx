@@ -8,17 +8,14 @@ import {
   PromoBanner,
   SiteGrid,
   ActivityFeed,
-  AddSiteModal,
   UpgradeModal,
   ActivityDetailModal,
-  type NewSiteData,
 } from "../components/dashboard";
 import { DASHBOARD_SITES, DASHBOARD_ACTIVITIES, type DashboardSite, type DashboardActivity } from "@/data/dashboard";
 import { createRoute } from "@/config/routes";
 
 export default function DashboardPage() {
   const router = useRouter();
-  const [isAddSiteOpen, setIsAddSiteOpen] = useState(false);
   const [isUpgradeOpen, setIsUpgradeOpen] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState<DashboardActivity | null>(null);
   const [isActivityDetailOpen, setIsActivityDetailOpen] = useState(false);
@@ -26,15 +23,6 @@ export default function DashboardPage() {
   const handleRefresh = () => {
     // TODO: Implement refresh logic
     console.log("Refreshing data...");
-  };
-
-  const handleAddSite = () => {
-    setIsAddSiteOpen(true);
-  };
-
-  const handleCreateSite = (data: NewSiteData) => {
-    console.log("Creating site:", data);
-    // TODO: Implement API call to create site
   };
 
   const handleVisitSite = (site: DashboardSite) => {
@@ -64,7 +52,6 @@ export default function DashboardPage() {
       <DashboardHeader
         userName="Lime"
         onRefresh={handleRefresh}
-        onAddSite={handleAddSite}
       />
 
       <PromoBanner onUpgrade={() => setIsUpgradeOpen(true)} />
@@ -73,7 +60,6 @@ export default function DashboardPage() {
         sites={DASHBOARD_SITES}
         onVisitSite={handleVisitSite}
         onManageSite={handleManageSite}
-        onAddSite={handleAddSite}
       />
 
       <ActivityFeed
@@ -81,12 +67,6 @@ export default function DashboardPage() {
         onViewAll={handleViewAllActivity}
         onViewDetails={handleViewActivityDetails}
         onGoToSite={handleGoToActivitySite}
-      />
-
-      <AddSiteModal
-        isOpen={isAddSiteOpen}
-        onClose={() => setIsAddSiteOpen(false)}
-        onSubmit={handleCreateSite}
       />
 
       <UpgradeModal

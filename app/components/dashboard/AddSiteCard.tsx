@@ -1,19 +1,17 @@
 "use client";
 
+import Link from "next/link";
 import { useTheme } from "@/lib/context/ThemeContext";
 import { cn } from "@/lib/utils";
+import { ROUTES } from "@/config/routes";
 
-interface AddSiteCardProps {
-  onClick?: () => void;
-}
-
-export function AddSiteCard({ onClick }: AddSiteCardProps) {
+export function AddSiteCard() {
   const { resolvedTheme } = useTheme();
   const isLight = resolvedTheme === "light";
 
   return (
-    <button
-      onClick={onClick}
+    <Link
+      href={ROUTES.NEW_SITE}
       className={cn(
         "group relative rounded-xl border-2 border-dashed transition-all duration-200 p-5 flex flex-col items-center justify-center text-center min-h-[280px]",
         isLight
@@ -52,6 +50,6 @@ export function AddSiteCard({ onClick }: AddSiteCardProps) {
       )}>
         Create or migrate a website
       </span>
-    </button>
+    </Link>
   );
 }

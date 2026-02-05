@@ -1,8 +1,8 @@
 "use client";
 
 import { Progress } from "@heroui/react";
-import { getColorClasses } from "@/lib/utils/colors";
 import { useTheme } from "@/lib/context/ThemeContext";
+import { getColorClasses } from "@/lib/utils/colors";
 import type { CurrentService } from "@/data/services";
 
 interface ActiveServiceCardProps {
@@ -12,9 +12,9 @@ interface ActiveServiceCardProps {
 }
 
 export function ActiveServiceCard({ service, onManage, onUpgrade }: ActiveServiceCardProps) {
-  const { resolvedTheme } = useTheme();
+  const { resolvedTheme, accentColor } = useTheme();
   const isLight = resolvedTheme === "light";
-  const colors = getColorClasses(service.color);
+  const accent = getColorClasses(accentColor);
 
   return (
     <div className={`group relative rounded-2xl border transition-all overflow-hidden ${
@@ -22,15 +22,14 @@ export function ActiveServiceCard({ service, onManage, onUpgrade }: ActiveServic
         ? "bg-white border-zinc-200 hover:border-zinc-300 hover:shadow-lg hover:shadow-zinc-200/50"
         : "bg-gradient-to-br from-[#1E1E21] to-[#1a1a1d] border-[#2A2A2E] hover:border-[#3F3F46]"
     }`}>
-      {/* Corner Glow */}
-      <div className={`absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl ${colors.glow} to-transparent rounded-full -translate-y-1/2 translate-x-1/4`} />
-
       <div className="relative p-6">
         {/* Header */}
         <div className="flex items-start justify-between gap-4 mb-5">
           <div className="flex items-center gap-4">
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center shadow-lg`}>
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${
+              isLight ? "bg-zinc-200" : "bg-zinc-800"
+            }`}>
+              <svg className={`w-6 h-6 ${isLight ? "text-zinc-600" : "text-zinc-400"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
                 <path d={service.icon} />
               </svg>
             </div>
@@ -43,12 +42,13 @@ export function ActiveServiceCard({ service, onManage, onUpgrade }: ActiveServic
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/10 ring-1 ring-emerald-500/20">
+          <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full ${
+            isLight ? "bg-zinc-100 ring-1 ring-zinc-200" : "bg-zinc-800 ring-1 ring-zinc-700"
+          }`}>
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-50"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+              <span className={`relative inline-flex rounded-full h-2 w-2 ${isLight ? "bg-zinc-500" : "bg-zinc-400"}`}></span>
             </span>
-            <span className="text-xs font-semibold text-emerald-400">Active</span>
+            <span className={`text-xs font-semibold ${isLight ? "text-zinc-600" : "text-zinc-400"}`}>Active</span>
           </div>
         </div>
 
@@ -63,7 +63,7 @@ export function ActiveServiceCard({ service, onManage, onUpgrade }: ActiveServic
                 size="sm"
                 classNames={{
                   track: `h-1 ${isLight ? "bg-zinc-200" : "bg-[#27272A]"}`,
-                  indicator: `${colors.progress} rounded-full`
+                  indicator: `${isLight ? "bg-zinc-500" : "bg-zinc-400"} rounded-full`
                 }}
               />
             </div>
@@ -91,7 +91,7 @@ export function ActiveServiceCard({ service, onManage, onUpgrade }: ActiveServic
             </button>
             <button
               onClick={() => onUpgrade?.(service)}
-              className={`h-9 px-4 rounded-lg bg-gradient-to-r ${colors.gradient} text-white text-sm font-semibold hover:opacity-90 transition-opacity flex items-center gap-2 shadow-lg`}
+              className={`h-9 px-4 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 text-white ${accent.button} ${accent.buttonHover}`}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18" />
