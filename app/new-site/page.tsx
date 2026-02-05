@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { Button, Input, Select, SelectItem } from "@heroui/react";
 import AppShell from "../components/AppShell";
 import { useTheme } from "@/lib/context/ThemeContext";
-import { getColorClasses } from "@/lib/utils/colors";
 import { cn } from "@/lib/utils";
 import { INPUT_CLASS_NAMES, SELECT_CLASS_NAMES } from "@/data/settings";
 import { ROUTES } from "@/config/routes";
@@ -138,9 +137,8 @@ const StepIcon = ({ type, className }: { type: string; className?: string }) => 
 
 export default function NewSitePage() {
   const router = useRouter();
-  const { resolvedTheme, accentColor } = useTheme();
+  const { resolvedTheme } = useTheme();
   const isLight = resolvedTheme === "light";
-  const colors = getColorClasses(accentColor);
 
   // Wizard state
   const [currentStep, setCurrentStep] = useState(1);
@@ -240,9 +238,13 @@ export default function NewSitePage() {
                 className={cn(
                   "w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-500 ease-out",
                   currentStep > step.id
-                    ? `bg-gradient-to-br ${colors.gradient} text-white shadow-lg scale-100`
+                    ? isLight
+                      ? "bg-zinc-800 text-white shadow-lg scale-100"
+                      : "bg-zinc-200 text-zinc-900 shadow-lg scale-100"
                     : currentStep === step.id
-                    ? `bg-gradient-to-br ${colors.gradient} text-white shadow-xl ring-2 ${isLight ? "ring-emerald-100" : "ring-emerald-500/20"} scale-105`
+                    ? isLight
+                      ? "bg-zinc-800 text-white shadow-xl ring-2 ring-zinc-300 scale-105"
+                      : "bg-zinc-200 text-zinc-900 shadow-xl ring-2 ring-zinc-600 scale-105"
                     : isLight
                     ? "bg-zinc-100 text-zinc-400 scale-100"
                     : "bg-zinc-800 text-zinc-500 scale-100"
@@ -273,7 +275,7 @@ export default function NewSitePage() {
                 <div
                   className={cn(
                     "absolute inset-y-0 left-0 rounded-full transition-all duration-700 ease-out",
-                    `bg-gradient-to-r ${colors.gradient}`,
+                    isLight ? "bg-zinc-800" : "bg-zinc-200",
                     currentStep > step.id ? "w-full" : "w-0"
                   )}
                 />
@@ -315,8 +317,8 @@ export default function NewSitePage() {
                     "group relative rounded-2xl border-2 p-6 text-left flex flex-col items-start",
                     selectedPackage === pkg.id
                       ? isLight
-                        ? "border-emerald-500 bg-gradient-to-b from-emerald-50 to-white"
-                        : "border-emerald-500 bg-gradient-to-b from-emerald-500/15 to-transparent"
+                        ? "border-zinc-400 bg-gradient-to-b from-zinc-100 to-white"
+                        : "border-zinc-500 bg-gradient-to-b from-zinc-700/30 to-transparent"
                       : isLight
                       ? "border-zinc-200 bg-white hover:border-zinc-300"
                       : "border-zinc-800 bg-zinc-900/50 hover:border-zinc-700 hover:bg-zinc-900"
@@ -325,7 +327,7 @@ export default function NewSitePage() {
                   {pkg.popular && (
                     <div className={cn(
                       "absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-[11px] font-bold shadow-lg",
-                      `bg-gradient-to-r ${colors.gradient} text-white`
+                      isLight ? "bg-zinc-800 text-white" : "bg-zinc-200 text-zinc-900"
                     )}>
                       Most Popular
                     </div>
@@ -355,9 +357,7 @@ export default function NewSitePage() {
                     <div className="flex items-baseline gap-1">
                       <span className={cn(
                         "text-3xl font-bold tracking-tight",
-                        selectedPackage === pkg.id
-                          ? colors.text
-                          : isLight ? "text-zinc-900" : "text-zinc-100"
+                        isLight ? "text-zinc-900" : "text-zinc-100"
                       )}>
                         {pkg.price}
                       </span>
@@ -377,12 +377,14 @@ export default function NewSitePage() {
                         <div className={cn(
                           "w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 transition-colors",
                           selectedPackage === pkg.id
-                            ? `bg-gradient-to-br ${colors.gradient}`
-                            : isLight ? "bg-emerald-100" : "bg-emerald-500/20"
+                            ? isLight ? "bg-zinc-800" : "bg-zinc-200"
+                            : isLight ? "bg-zinc-200" : "bg-zinc-700"
                         )}>
                           <StepIcon type="check" className={cn(
                             "w-3 h-3",
-                            selectedPackage === pkg.id ? "text-white" : "text-emerald-500"
+                            selectedPackage === pkg.id
+                              ? isLight ? "text-white" : "text-zinc-900"
+                              : isLight ? "text-zinc-500" : "text-zinc-400"
                           )} />
                         </div>
                         <span className={cn(
@@ -396,12 +398,12 @@ export default function NewSitePage() {
                   {/* Selection indicator */}
                   <div className={cn(
                     "absolute top-4 right-4 w-6 h-6 rounded-full flex items-center justify-center transition-opacity duration-150",
-                    `bg-gradient-to-br ${colors.gradient}`,
+                    isLight ? "bg-zinc-800" : "bg-zinc-200",
                     selectedPackage === pkg.id
                       ? "opacity-100"
                       : "opacity-0"
                   )}>
-                    <StepIcon type="check" className="w-3.5 h-3.5 text-white" />
+                    <StepIcon type="check" className={cn("w-3.5 h-3.5", isLight ? "text-white" : "text-zinc-900")} />
                   </div>
                 </button>
               ))}
@@ -442,8 +444,8 @@ export default function NewSitePage() {
                       "group relative rounded-xl border-2 p-4 text-left transition-all duration-300",
                       domainType === type.id
                         ? isLight
-                          ? "border-emerald-500 bg-emerald-50/50 shadow-md"
-                          : "border-emerald-500 bg-emerald-500/10"
+                          ? "border-zinc-400 bg-zinc-100/50 shadow-md"
+                          : "border-zinc-500 bg-zinc-700/20"
                         : isLight
                         ? "border-zinc-200 bg-white hover:border-zinc-300"
                         : "border-zinc-800 bg-zinc-900/50 hover:border-zinc-700"
@@ -453,14 +455,16 @@ export default function NewSitePage() {
                       <div className={cn(
                         "w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors",
                         domainType === type.id
-                          ? `bg-gradient-to-br ${colors.gradient}`
+                          ? isLight ? "bg-zinc-800" : "bg-zinc-200"
                           : isLight ? "bg-zinc-100" : "bg-zinc-800"
                       )}>
                         <StepIcon
                           type={type.icon}
                           className={cn(
                             "w-5 h-5",
-                            domainType === type.id ? "text-white" : isLight ? "text-zinc-600" : "text-zinc-400"
+                            domainType === type.id
+                              ? isLight ? "text-white" : "text-zinc-900"
+                              : isLight ? "text-zinc-600" : "text-zinc-400"
                           )}
                         />
                       </div>
@@ -476,9 +480,9 @@ export default function NewSitePage() {
                     {domainType === type.id && (
                       <div className={cn(
                         "absolute top-2.5 right-2.5 w-5 h-5 rounded-full flex items-center justify-center",
-                        `bg-gradient-to-br ${colors.gradient}`
+                        isLight ? "bg-zinc-800" : "bg-zinc-200"
                       )}>
-                        <StepIcon type="check" className="w-3.5 h-3.5 text-white" />
+                        <StepIcon type="check" className={cn("w-3.5 h-3.5", isLight ? "text-white" : "text-zinc-900")} />
                       </div>
                     )}
                   </button>
@@ -513,7 +517,7 @@ export default function NewSitePage() {
                 }
                 endContent={
                   domainType === "subdomain" && (
-                    <span className={cn("text-sm font-medium", colors.text)}>.limewp.com</span>
+                    <span className={cn("text-sm font-medium", isLight ? "text-zinc-600" : "text-zinc-400")}>.limewp.com</span>
                   )
                 }
               />
@@ -523,22 +527,22 @@ export default function NewSitePage() {
             <div className={cn(
               "rounded-xl p-4 flex items-start gap-3",
               isLight
-                ? "bg-gradient-to-r from-blue-50 to-sky-50 border border-blue-200"
-                : "bg-gradient-to-r from-blue-500/10 to-sky-500/10 border border-blue-500/20"
+                ? "bg-zinc-100 border border-zinc-200"
+                : "bg-zinc-800/50 border border-zinc-700"
             )}>
               <div className={cn(
                 "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0",
-                "bg-gradient-to-br from-blue-500 to-sky-500"
+                isLight ? "bg-zinc-800" : "bg-zinc-200"
               )}>
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                <svg className={cn("w-5 h-5", isLight ? "text-white" : "text-zinc-900")} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                 </svg>
               </div>
               <div>
-                <p className={cn("font-semibold text-sm", isLight ? "text-blue-900" : "text-blue-300")}>
+                <p className={cn("font-semibold text-sm", isLight ? "text-zinc-800" : "text-zinc-200")}>
                   Domain Configuration
                 </p>
-                <p className={cn("text-xs leading-relaxed", isLight ? "text-blue-700" : "text-blue-400/80")}>
+                <p className={cn("text-xs leading-relaxed", isLight ? "text-zinc-600" : "text-zinc-400")}>
                   Make sure your domain is registered and properly configured with DNS settings pointing to our nameservers. Your site will be accessible at this domain once the setup is complete.
                 </p>
               </div>
@@ -556,8 +560,8 @@ export default function NewSitePage() {
                     "group relative rounded-xl border-2 p-4 text-left transition-all duration-300",
                     sslType === "letsencrypt"
                       ? isLight
-                        ? "border-emerald-500 bg-emerald-50/50 shadow-md"
-                        : "border-emerald-500 bg-emerald-500/10"
+                        ? "border-zinc-400 bg-zinc-100/50 shadow-md"
+                        : "border-zinc-500 bg-zinc-700/20"
                       : isLight
                       ? "border-zinc-200 bg-white hover:border-zinc-300"
                       : "border-zinc-800 bg-zinc-900/50 hover:border-zinc-700"
@@ -567,10 +571,10 @@ export default function NewSitePage() {
                     <div className={cn(
                       "w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors",
                       sslType === "letsencrypt"
-                        ? `bg-gradient-to-br ${colors.gradient}`
+                        ? isLight ? "bg-zinc-800" : "bg-zinc-200"
                         : isLight ? "bg-zinc-100" : "bg-zinc-800"
                     )}>
-                      <svg className={cn("w-5 h-5", sslType === "letsencrypt" ? "text-white" : isLight ? "text-zinc-600" : "text-zinc-400")} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                      <svg className={cn("w-5 h-5", sslType === "letsencrypt" ? isLight ? "text-white" : "text-zinc-900" : isLight ? "text-zinc-600" : "text-zinc-400")} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
                       </svg>
                     </div>
@@ -581,7 +585,7 @@ export default function NewSitePage() {
                         </h4>
                         <span className={cn(
                           "text-[10px] font-bold px-2 py-0.5 rounded-full",
-                          `bg-gradient-to-r ${colors.gradient} text-white`
+                          isLight ? "bg-zinc-800 text-white" : "bg-zinc-200 text-zinc-900"
                         )}>
                           Auto
                         </span>
@@ -594,9 +598,9 @@ export default function NewSitePage() {
                   {sslType === "letsencrypt" && (
                     <div className={cn(
                       "absolute top-2.5 right-2.5 w-5 h-5 rounded-full flex items-center justify-center",
-                      `bg-gradient-to-br ${colors.gradient}`
+                      isLight ? "bg-zinc-800" : "bg-zinc-200"
                     )}>
-                      <StepIcon type="check" className="w-3.5 h-3.5 text-white" />
+                      <StepIcon type="check" className={cn("w-3.5 h-3.5", isLight ? "text-white" : "text-zinc-900")} />
                     </div>
                   )}
                 </button>
@@ -607,8 +611,8 @@ export default function NewSitePage() {
                     "group relative rounded-xl border-2 p-4 text-left transition-all duration-300",
                     sslType === "cloudflare"
                       ? isLight
-                        ? "border-emerald-500 bg-emerald-50/50 shadow-md"
-                        : "border-emerald-500 bg-emerald-500/10"
+                        ? "border-zinc-400 bg-zinc-100/50 shadow-md"
+                        : "border-zinc-500 bg-zinc-700/20"
                       : isLight
                       ? "border-zinc-200 bg-white hover:border-zinc-300"
                       : "border-zinc-800 bg-zinc-900/50 hover:border-zinc-700"
@@ -618,10 +622,10 @@ export default function NewSitePage() {
                     <div className={cn(
                       "w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors",
                       sslType === "cloudflare"
-                        ? `bg-gradient-to-br ${colors.gradient}`
-                        : isLight ? "bg-orange-100" : "bg-orange-500/20"
+                        ? isLight ? "bg-zinc-800" : "bg-zinc-200"
+                        : isLight ? "bg-zinc-100" : "bg-zinc-800"
                     )}>
-                      <svg className={cn("w-5 h-5", sslType === "cloudflare" ? "text-white" : "text-orange-500")} viewBox="0 0 24 24" fill="currentColor">
+                      <svg className={cn("w-5 h-5", sslType === "cloudflare" ? isLight ? "text-white" : "text-zinc-900" : isLight ? "text-zinc-600" : "text-zinc-400")} viewBox="0 0 24 24" fill="currentColor">
                         <path d="M16.5088 16.8447C16.6235 16.4476 16.5765 16.0976 16.3694 15.8224C16.1835 15.5765 15.8688 15.4329 15.4894 15.4094L8.84354 15.3553C8.75531 15.3506 8.68 15.3059 8.63531 15.2365C8.59062 15.1671 8.58354 15.0824 8.61354 15.0035C8.66531 14.8694 8.79354 14.7765 8.94354 14.7624L15.5929 14.7082C16.4894 14.6541 17.4494 13.9671 17.8094 13.1412L18.3176 11.9647C18.3694 11.8447 18.3929 11.7153 18.3788 11.5859C17.9953 9.32 16.0188 7.58 13.6376 7.58C11.5847 7.58 9.82354 8.90118 9.15177 10.7271C8.75531 10.4612 8.27531 10.3035 7.75531 10.3035C6.49177 10.3035 5.46354 11.2894 5.39531 12.5365C5.39531 12.5929 5.39531 12.6494 5.39531 12.7059C4.20708 12.9341 3.29177 13.9624 3.29177 15.2035C3.29177 15.3118 3.30354 15.4176 3.31531 15.5212C3.33062 15.6671 3.45531 15.7765 3.60354 15.7765H16.0329C16.1788 15.7765 16.31 15.6859 16.3624 15.5541L16.5088 16.8447Z"/>
                       </svg>
                     </div>
@@ -637,9 +641,9 @@ export default function NewSitePage() {
                   {sslType === "cloudflare" && (
                     <div className={cn(
                       "absolute top-2.5 right-2.5 w-5 h-5 rounded-full flex items-center justify-center",
-                      `bg-gradient-to-br ${colors.gradient}`
+                      isLight ? "bg-zinc-800" : "bg-zinc-200"
                     )}>
-                      <StepIcon type="check" className="w-3.5 h-3.5 text-white" />
+                      <StepIcon type="check" className={cn("w-3.5 h-3.5", isLight ? "text-white" : "text-zinc-900")} />
                     </div>
                   )}
                 </button>
@@ -669,7 +673,7 @@ export default function NewSitePage() {
                     )}>
                       <span className={cn(
                         "px-1.5 py-0.5 rounded text-[10px] font-bold",
-                        isLight ? "bg-orange-100 text-orange-600" : "bg-orange-500/20 text-orange-400"
+                        isLight ? "bg-zinc-200 text-zinc-600" : "bg-zinc-700 text-zinc-400"
                       )}>A</span>
                       <span className={cn(isLight ? "text-zinc-600" : "text-zinc-400")}>@</span>
                       <span className={cn(isLight ? "text-zinc-400" : "text-zinc-600")}>→</span>
@@ -681,7 +685,7 @@ export default function NewSitePage() {
                     )}>
                       <span className={cn(
                         "px-1.5 py-0.5 rounded text-[10px] font-bold",
-                        isLight ? "bg-orange-100 text-orange-600" : "bg-orange-500/20 text-orange-400"
+                        isLight ? "bg-zinc-200 text-zinc-600" : "bg-zinc-700 text-zinc-400"
                       )}>A</span>
                       <span className={cn(isLight ? "text-zinc-600" : "text-zinc-400")}>www</span>
                       <span className={cn(isLight ? "text-zinc-400" : "text-zinc-600")}>→</span>
@@ -694,22 +698,22 @@ export default function NewSitePage() {
                 <div className={cn(
                   "rounded-xl p-4 flex items-start gap-3",
                   isLight
-                    ? "bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200"
-                    : "bg-gradient-to-r from-orange-500/10 to-amber-500/10 border border-orange-500/20"
+                    ? "bg-zinc-100 border border-zinc-200"
+                    : "bg-zinc-800/50 border border-zinc-700"
                 )}>
                   <div className={cn(
                     "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0",
-                    "bg-gradient-to-br from-orange-500 to-amber-500"
+                    isLight ? "bg-zinc-800" : "bg-zinc-200"
                   )}>
-                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <svg className={cn("w-5 h-5", isLight ? "text-white" : "text-zinc-900")} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                     </svg>
                   </div>
                   <div>
-                    <p className={cn("font-semibold text-sm", isLight ? "text-orange-900" : "text-orange-300")}>
+                    <p className={cn("font-semibold text-sm", isLight ? "text-zinc-800" : "text-zinc-200")}>
                       Generate an Origin Certificate
                     </p>
-                    <p className={cn("text-xs leading-relaxed", isLight ? "text-orange-700" : "text-orange-400/80")}>
+                    <p className={cn("text-xs leading-relaxed", isLight ? "text-zinc-600" : "text-zinc-400")}>
                       Go to Cloudflare → <span className="font-semibold">SSL/TLS → Origin Server</span> and create a certificate.
                     </p>
                   </div>
@@ -736,9 +740,9 @@ export default function NewSitePage() {
                         className={cn(
                           "w-full px-3 py-2.5 rounded-lg border text-sm font-mono resize-none transition-colors",
                           isLight
-                            ? "bg-white border-zinc-200 hover:border-zinc-300 focus:border-emerald-500/50 text-zinc-800 placeholder:text-zinc-400"
-                            : "bg-zinc-900 border-zinc-800 hover:border-zinc-700 focus:border-emerald-500/50 text-zinc-100 placeholder:text-zinc-600",
-                          "focus:outline-none focus:ring-1 focus:ring-emerald-500/20"
+                            ? "bg-white border-zinc-200 hover:border-zinc-300 focus:border-zinc-400 text-zinc-800 placeholder:text-zinc-400"
+                            : "bg-zinc-900 border-zinc-800 hover:border-zinc-700 focus:border-zinc-500 text-zinc-100 placeholder:text-zinc-600",
+                          "focus:outline-none focus:ring-1 focus:ring-zinc-500/20"
                         )}
                       />
                     </div>
@@ -757,9 +761,9 @@ export default function NewSitePage() {
                         className={cn(
                           "w-full px-3 py-2.5 rounded-lg border text-sm font-mono resize-none transition-colors",
                           isLight
-                            ? "bg-white border-zinc-200 hover:border-zinc-300 focus:border-emerald-500/50 text-zinc-800 placeholder:text-zinc-400"
-                            : "bg-zinc-900 border-zinc-800 hover:border-zinc-700 focus:border-emerald-500/50 text-zinc-100 placeholder:text-zinc-600",
-                          "focus:outline-none focus:ring-1 focus:ring-emerald-500/20"
+                            ? "bg-white border-zinc-200 hover:border-zinc-300 focus:border-zinc-400 text-zinc-800 placeholder:text-zinc-400"
+                            : "bg-zinc-900 border-zinc-800 hover:border-zinc-700 focus:border-zinc-500 text-zinc-100 placeholder:text-zinc-600",
+                          "focus:outline-none focus:ring-1 focus:ring-zinc-500/20"
                         )}
                       />
                     </div>
@@ -826,9 +830,9 @@ export default function NewSitePage() {
               <div className="flex items-center gap-3 mb-4">
                 <div className={cn(
                   "w-9 h-9 rounded-lg flex items-center justify-center",
-                  isLight ? "bg-amber-100" : "bg-amber-500/20"
+                  isLight ? "bg-zinc-100" : "bg-zinc-800"
                 )}>
-                  <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                  <svg className={cn("w-5 h-5", isLight ? "text-zinc-600" : "text-zinc-400")} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
                   </svg>
                 </div>
@@ -860,7 +864,7 @@ export default function NewSitePage() {
                     "block text-xs font-medium mb-1.5",
                     isLight ? "text-zinc-600" : "text-zinc-400"
                   )}>
-                    Admin Email <span className="text-rose-400">*</span>
+                    Admin Email <span className="text-zinc-400">*</span>
                   </label>
                   <Input
                     value={adminEmail}
@@ -877,7 +881,7 @@ export default function NewSitePage() {
                     "block text-xs font-medium mb-1.5",
                     isLight ? "text-zinc-600" : "text-zinc-400"
                   )}>
-                    Admin Password <span className="text-rose-400">*</span>
+                    Admin Password <span className="text-zinc-400">*</span>
                   </label>
                   <Input
                     value={adminPassword}
@@ -894,7 +898,7 @@ export default function NewSitePage() {
                     "block text-xs font-medium mb-1.5",
                     isLight ? "text-zinc-600" : "text-zinc-400"
                   )}>
-                    Confirm Password <span className="text-rose-400">*</span>
+                    Confirm Password <span className="text-zinc-400">*</span>
                   </label>
                   <Input
                     value={confirmPassword}
@@ -914,13 +918,13 @@ export default function NewSitePage() {
               <div className={cn(
                 "mt-4 rounded-lg p-3 flex items-start gap-2.5",
                 isLight
-                  ? "bg-amber-50 border border-amber-200"
-                  : "bg-amber-500/10 border border-amber-500/20"
+                  ? "bg-zinc-100 border border-zinc-200"
+                  : "bg-zinc-800/50 border border-zinc-700"
               )}>
-                <svg className={cn("w-4 h-4 flex-shrink-0 mt-0.5", isLight ? "text-amber-600" : "text-amber-400")} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <svg className={cn("w-4 h-4 flex-shrink-0 mt-0.5", isLight ? "text-zinc-600" : "text-zinc-400")} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                 </svg>
-                <p className={cn("text-xs leading-relaxed", isLight ? "text-amber-700" : "text-amber-300/90")}>
+                <p className={cn("text-xs leading-relaxed", isLight ? "text-zinc-600" : "text-zinc-400")}>
                   <span className="font-semibold">Save these credentials!</span> You&apos;ll need them to log into your WordPress dashboard.
                 </p>
               </div>
@@ -996,21 +1000,20 @@ export default function NewSitePage() {
 
             {/* Success Box */}
             <div className={cn(
-              "rounded-xl p-4 flex items-start gap-3",
-              `bg-gradient-to-r ${isLight ? "from-emerald-50 to-teal-50" : "from-emerald-500/10 to-teal-500/10"} border`,
-              isLight ? "border-emerald-200" : "border-emerald-500/20"
+              "rounded-xl p-4 flex items-start gap-3 border",
+              isLight ? "bg-zinc-100 border-zinc-200" : "bg-zinc-800/50 border-zinc-700"
             )}>
               <div className={cn(
                 "w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0",
-                `bg-gradient-to-br ${colors.gradient}`
+                isLight ? "bg-zinc-800" : "bg-zinc-200"
               )}>
-                <StepIcon type="rocket" className="w-5 h-5 text-white" />
+                <StepIcon type="rocket" className={cn("w-5 h-5", isLight ? "text-white" : "text-zinc-900")} />
               </div>
               <div>
-                <p className={cn("font-semibold text-sm", isLight ? "text-emerald-900" : "text-emerald-300")}>
+                <p className={cn("font-semibold text-sm", isLight ? "text-zinc-800" : "text-zinc-200")}>
                   Ready for Launch!
                 </p>
-                <p className={cn("text-xs leading-relaxed", isLight ? "text-emerald-700" : "text-emerald-400/80")}>
+                <p className={cn("text-xs leading-relaxed", isLight ? "text-zinc-600" : "text-zinc-400")}>
                   Your WordPress site will be deployed instantly with SSL, backups, and staging included.
                 </p>
               </div>
@@ -1098,8 +1101,10 @@ export default function NewSitePage() {
               onPress={handleNext}
               isDisabled={!canProceed()}
               className={cn(
-                "text-white font-semibold text-sm rounded-lg h-10 px-6 shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed",
-                `bg-gradient-to-r ${colors.gradient} shadow-emerald-500/20 hover:shadow-emerald-500/30 hover:scale-[1.02]`
+                "font-semibold text-sm rounded-lg h-10 px-6 shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02]",
+                isLight
+                  ? "bg-zinc-800 text-white shadow-zinc-500/20 hover:bg-zinc-700 hover:shadow-zinc-500/30"
+                  : "bg-zinc-100 text-zinc-900 shadow-zinc-500/10 hover:bg-zinc-200 hover:shadow-zinc-500/20"
               )}
             >
               Continue
@@ -1113,8 +1118,10 @@ export default function NewSitePage() {
               isDisabled={!canProceed()}
               isLoading={isCreating}
               className={cn(
-                "text-white font-semibold text-sm rounded-lg h-10 px-7 shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed",
-                `bg-gradient-to-r ${colors.gradient} shadow-emerald-500/20 hover:shadow-emerald-500/30 hover:scale-[1.02]`
+                "font-semibold text-sm rounded-lg h-10 px-7 shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.02]",
+                isLight
+                  ? "bg-zinc-800 text-white shadow-zinc-500/20 hover:bg-zinc-700 hover:shadow-zinc-500/30"
+                  : "bg-zinc-100 text-zinc-900 shadow-zinc-500/10 hover:bg-zinc-200 hover:shadow-zinc-500/20"
               )}
             >
               {isCreating ? "Creating..." : (
