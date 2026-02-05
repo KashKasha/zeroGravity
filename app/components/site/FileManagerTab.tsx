@@ -640,7 +640,7 @@ export function FileManagerTab() {
                 isLight ? "bg-zinc-200" : "bg-[#3F3F46]"
               )}>
                 <div
-                  className={cn("h-full rounded-full", colors.indicator)}
+                  className={cn("h-full rounded-full", colors.progress)}
                   style={{ width: "21%" }}
                 />
               </div>
