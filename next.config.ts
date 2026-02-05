@@ -13,6 +13,17 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // Redirects
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/dashboard",
+        permanent: false,
+      },
+    ];
+  },
+
   // Security headers
   async headers() {
     return [
